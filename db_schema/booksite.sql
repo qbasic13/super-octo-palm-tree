@@ -1,9 +1,3 @@
-/* ---------------------------------------------------- */
-/*												 		*/
-/*  Created On : 11-Jun-2022 12:12:11 					*/
-/*														*/
-/* ---------------------------------------------------- */
-
 /* Drop Foreign Key Constraints */
 
 IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_b_g]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
@@ -34,14 +28,6 @@ IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_o_u]') AND OB
 ALTER TABLE [orders] DROP CONSTRAINT [FK_o_u]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_oa_os]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [orders_archive] DROP CONSTRAINT [FK_oa_os]
-GO
-
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_oa_u]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [orders_archive] DROP CONSTRAINT [FK_oa_u]
-GO
-
 IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_rs_u]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
 ALTER TABLE [refresh_sessions] DROP CONSTRAINT [FK_rs_u]
 GO
@@ -70,10 +56,6 @@ GO
 
 IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[orders]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
 DROP TABLE [orders]
-GO
-
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[orders_archive]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [orders_archive]
 GO
 
 IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[refresh_sessions]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
@@ -140,17 +122,6 @@ CREATE TABLE [orders]
 	[o_total_price] money NOT NULL,
 	[o_creation_dt] smalldatetime NOT NULL,
 	[o_completion_dt] smalldatetime NULL
-)
-GO
-
-CREATE TABLE [orders_archive]
-(
-	[oa_id] int NOT NULL,
-	[oa_status] int NOT NULL,
-	[oa_creator] int NOT NULL,
-	[oa_total_price] money NOT NULL,
-	[oa_creation_dt] smalldatetime NOT NULL,
-	[oa_completion_dt] smalldatetime NOT NULL
 )
 GO
 
@@ -258,19 +229,6 @@ CREATE NONCLUSTERED INDEX [IXFK_o_u]
  ON [orders] ([o_creator] ASC)
 GO
 
-ALTER TABLE [orders_archive] 
- ADD CONSTRAINT [PK_oa]
-	PRIMARY KEY CLUSTERED ([oa_id] ASC)
-GO
-
-CREATE NONCLUSTERED INDEX [IXFK_oa_os] 
- ON [orders_archive] ([oa_status] ASC)
-GO
-
-CREATE NONCLUSTERED INDEX [IXFK_oa_u] 
- ON [orders_archive] ([oa_creator] ASC)
-GO
-
 ALTER TABLE [refresh_sessions] 
  ADD CONSTRAINT [PK_rs]
 	PRIMARY KEY CLUSTERED ([rs_id] ASC)
@@ -326,14 +284,6 @@ GO
 
 ALTER TABLE [orders] ADD CONSTRAINT [FK_o_u]
 	FOREIGN KEY ([o_creator]) REFERENCES [users] ([u_id]) ON DELETE No Action ON UPDATE No Action
-GO
-
-ALTER TABLE [orders_archive] ADD CONSTRAINT [FK_oa_os]
-	FOREIGN KEY ([oa_status]) REFERENCES [order_statuses] ([os_id]) ON DELETE No Action ON UPDATE No Action
-GO
-
-ALTER TABLE [orders_archive] ADD CONSTRAINT [FK_oa_u]
-	FOREIGN KEY ([oa_creator]) REFERENCES [users] ([u_id]) ON DELETE No Action ON UPDATE No Action
 GO
 
 ALTER TABLE [refresh_sessions] ADD CONSTRAINT [FK_rs_u]
