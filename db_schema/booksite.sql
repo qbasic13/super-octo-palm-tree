@@ -81,7 +81,7 @@ CREATE TABLE [books]
 	[b_publish_year] int NOT NULL,
 	[b_quantity] int NOT NULL,
 	[b_price] money NULL,
-	[b_cover_file] nvarchar(150) NOT NULL
+	[b_cover_file] nvarchar(150) NULL
 )
 GO
 
