@@ -1,2 +1,4 @@
 *.swp
 db_schema/*.ldb
+db_schema/*.eap
+db_schema/covers/*
