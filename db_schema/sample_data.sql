@@ -14,11 +14,11 @@ FROM
 	('2', 'unverified'),
 	('3', 'verified')
 ) 
-	AS [new]
-	(
-		[ut_id],
-	 	[ut_name]
-	)
+AS [new]
+(
+	[ut_id],
+ 	[ut_name]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -59,11 +59,11 @@ FROM
 	('18','literary_fiction'), 
 	('19','poem')
 ) 
-	AS [new]
-	(
-		[g_id], 
-	 	[g_name]
-	)
+AS [new]
+(
+	[g_id], 
+ 	[g_name]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -71,7 +71,7 @@ WHERE NOT EXISTS
 	FROM 
 		[genres]
 	WHERE [new].[g_id] = [genres].[g_id]
-		AND [new].[g_name] = [genres].[g_name]
+	AND [new].[g_name] = [genres].[g_name]
 );
 
 
@@ -89,11 +89,11 @@ FROM
 	('2', 'being_delivered'), 
 	('3', 'completed')
 ) 
-	AS [new] 
-	(
-		[os_id], 
-	 	[os_name]
-	)
+AS [new] 
+(
+	[os_id], 
+ 	[os_name]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -163,18 +163,18 @@ FROM
 		CAST(N'2022-06-10 09:00:00' AS smalldatetime)
 	)
 ) 
-	AS [new]
-	(
-		[u_id],
-		[u_email], 
-		[u_first_name], 
-		[u_last_name], 
-		[u_middle_name], 
-		[u_password], 
-		[u_phone], 
-		[u_profile_file],
-		[u_register_dt]
-	)
+AS [new]
+(
+	[u_id],
+	[u_email], 
+	[u_first_name], 
+	[u_last_name], 
+	[u_middle_name], 
+	[u_password], 
+	[u_phone], 
+	[u_profile_file],
+	[u_register_dt]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -245,11 +245,11 @@ FROM
 		)
 	)
 ) 
-	AS [new] 
-	(
-		[m2muut_u_id], 
-		[m2muut_ut_id]
-	)
+AS [new] 
+(
+	[m2muut_u_id], 
+	[m2muut_ut_id]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -437,17 +437,17 @@ FROM
 		null 
 	)
 ) 
-	AS [new] 
-	(
-		[b_isbn], 
-		[b_title], 
-		[b_genre], 
-		[b_author], 
-		[b_publish_year],
-		[b_quantity], 
-		[b_price], 
-		[b_cover_file]
-	)
+AS [new] 
+(
+	[b_isbn], 
+	[b_title], 
+	[b_genre], 
+	[b_author], 
+	[b_publish_year],
+	[b_quantity], 
+	[b_price], 
+	[b_cover_file]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -536,15 +536,15 @@ FROM
 		CAST(N'2022-06-10 17:24:10' AS smalldatetime)
 	)
 ) 
-	AS [new]
-	(
-		[o_id], 
-		[o_status], 
-		[o_creator], 
-		[o_total_price], 
-		[o_creation_dt], 
-		[o_completion_dt]
-	)
+AS [new]
+(
+	[o_id], 
+	[o_status], 
+	[o_creator], 
+	[o_total_price], 
+	[o_creation_dt], 
+	[o_completion_dt]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
@@ -645,12 +645,12 @@ FROM
 		'10.00'
 	)
 ) 
-	AS [new]
-	(
-		[m2mob_o_id], 
-		[m2mob_b_isbn], 
-		[m2mob_price]
-	)
+AS [new]
+(
+	[m2mob_o_id], 
+	[m2mob_b_isbn], 
+	[m2mob_price]
+)
 WHERE NOT EXISTS 
 (
 	SELECT
