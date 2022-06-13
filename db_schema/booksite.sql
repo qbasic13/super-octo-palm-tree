@@ -1,73 +1,216 @@
 /* Drop Foreign Key Constraints */
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_b_g]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [books] DROP CONSTRAINT [FK_b_g]
+IF EXISTS 
+	(
+	SELECT
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_b_g]') 
+		AND OBJECTPROPERTY(id, N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [books] 
+		DROP CONSTRAINT [FK_b_g]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_m2mob_b]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [m2m_orders_books] DROP CONSTRAINT [FK_m2mob_b]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_m2mob_b]')
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [m2m_orders_books] 
+		DROP CONSTRAINT [FK_m2mob_b]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_m2mob_o]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [m2m_orders_books] DROP CONSTRAINT [FK_m2mob_o]
+IF EXISTS 
+	(
+	SELECT 
+		1
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_m2mob_o]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [m2m_orders_books] 
+		DROP CONSTRAINT [FK_m2mob_o]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_m2m_uut_u]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [m2m_users_user_types] DROP CONSTRAINT [FK_m2m_uut_u]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_m2m_uut_u]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [m2m_users_user_types] 
+		DROP CONSTRAINT [FK_m2m_uut_u]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_m2muut_ut]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [m2m_users_user_types] DROP CONSTRAINT [FK_m2muut_ut]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_m2muut_ut]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [m2m_users_user_types] 
+		DROP CONSTRAINT [FK_m2muut_ut]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_o_os]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [orders] DROP CONSTRAINT [FK_o_os]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_o_os]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [orders] 
+		DROP CONSTRAINT [FK_o_os]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_o_u]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [orders] DROP CONSTRAINT [FK_o_u]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_o_u]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [orders] 
+		DROP CONSTRAINT [FK_o_u]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[FK_rs_u]') AND OBJECTPROPERTY(id, N'IsForeignKey') = 1) 
-ALTER TABLE [refresh_sessions] DROP CONSTRAINT [FK_rs_u]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[FK_rs_u]') 
+		AND OBJECTPROPERTY([id], N'IsForeignKey') = 1
+	) 
+	ALTER TABLE [refresh_sessions] 
+		DROP CONSTRAINT [FK_rs_u]
 GO
 
 /* Drop Tables */
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[books]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [books]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[books]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [books]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[genres]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [genres]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[genres]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [genres]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[m2m_orders_books]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [m2m_orders_books]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[m2m_orders_books]') 
+		AND OBJECTPROPERTY(id, N'IsUserTable') = 1
+	) 
+	DROP TABLE [m2m_orders_books]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[m2m_users_user_types]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [m2m_users_user_types]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[m2m_users_user_types]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [m2m_users_user_types]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[order_statuses]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [order_statuses]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[order_statuses]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [order_statuses]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[orders]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [orders]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[orders]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [orders]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[refresh_sessions]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [refresh_sessions]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[refresh_sessions]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [refresh_sessions]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[user_types]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [user_types]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM 
+		[dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[user_types]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [user_types]
 GO
 
-IF EXISTS (SELECT 1 FROM dbo.sysobjects WHERE id = object_id(N'[users]') AND OBJECTPROPERTY(id, N'IsUserTable') = 1) 
-DROP TABLE [users]
+IF EXISTS 
+	(
+	SELECT 
+		1 
+	FROM [dbo].[sysobjects] 
+	WHERE [id] = object_id(N'[users]') 
+		AND OBJECTPROPERTY([id], N'IsUserTable') = 1
+	) 
+	DROP TABLE [users]
 GO
 
 /* Create Tables */
@@ -160,132 +303,160 @@ GO
 /* Create Primary Keys, Indexes, Uniques, Checks */
 
 ALTER TABLE [books] 
- ADD CONSTRAINT [PK_b]
-	PRIMARY KEY CLUSTERED ([b_isbn] ASC)
+	ADD CONSTRAINT [PK_b] 
+		PRIMARY KEY CLUSTERED ([b_isbn] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_b_g] 
- ON [books] ([b_genre] ASC)
+	ON [books] ([b_genre] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IX_b_title] 
- ON [books] ([b_title] ASC)
+	ON [books] ([b_title] ASC)
 GO
 
 ALTER TABLE [genres] 
- ADD CONSTRAINT [PK_g]
-	PRIMARY KEY CLUSTERED ([g_id] ASC)
+	ADD CONSTRAINT [PK_g] 
+		PRIMARY KEY CLUSTERED ([g_id] ASC)
 GO
 
 ALTER TABLE [genres] 
- ADD CONSTRAINT [UNQ_g_name] UNIQUE NONCLUSTERED ([g_name] ASC)
+	ADD CONSTRAINT [UNQ_g_name] 
+		UNIQUE NONCLUSTERED ([g_name] ASC)
 GO
 
 ALTER TABLE [m2m_orders_books] 
- ADD CONSTRAINT [PK_m2mob]
-	PRIMARY KEY CLUSTERED ([m2mob_o_id] ASC,[m2mob_b_isbn] ASC)
+	ADD CONSTRAINT [PK_m2mob] 
+		PRIMARY KEY CLUSTERED ([m2mob_o_id] ASC,[m2mob_b_isbn] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_m2mob_b] 
- ON [m2m_orders_books] ([m2mob_b_isbn] ASC)
+	ON [m2m_orders_books] ([m2mob_b_isbn] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_m2mob_o] 
- ON [m2m_orders_books] ([m2mob_o_id] ASC)
+	ON [m2m_orders_books] ([m2mob_o_id] ASC)
 GO
 
 ALTER TABLE [m2m_users_user_types] 
- ADD CONSTRAINT [PK_m2muut]
-	PRIMARY KEY CLUSTERED ([m2muut_u_id] ASC,[m2muut_ut_id] ASC)
+	ADD CONSTRAINT [PK_m2muut] 
+		PRIMARY KEY CLUSTERED ([m2muut_u_id] ASC,[m2muut_ut_id] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_m2muut_u] 
- ON [m2m_users_user_types] ([m2muut_u_id] ASC)
+	ON [m2m_users_user_types] ([m2muut_u_id] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_m2muut_ut] 
- ON [m2m_users_user_types] ([m2muut_ut_id] ASC)
+	ON [m2m_users_user_types] ([m2muut_ut_id] ASC)
 GO
 
 ALTER TABLE [order_statuses] 
- ADD CONSTRAINT [PK_os]
-	PRIMARY KEY CLUSTERED ([os_id] ASC)
+	ADD CONSTRAINT [PK_os] 
+		PRIMARY KEY CLUSTERED ([os_id] ASC)
 GO
 
 ALTER TABLE [order_statuses] 
- ADD CONSTRAINT [UNQ_os_name] UNIQUE NONCLUSTERED ([os_name] ASC)
+	ADD CONSTRAINT [UNQ_os_name] 
+		UNIQUE NONCLUSTERED ([os_name] ASC)
 GO
 
 ALTER TABLE [orders] 
- ADD CONSTRAINT [PK_o]
-	PRIMARY KEY CLUSTERED ([o_id] ASC)
+	ADD CONSTRAINT [PK_o] 
+		PRIMARY KEY CLUSTERED ([o_id] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_o_os] 
- ON [orders] ([o_status] ASC)
+	ON [orders] ([o_status] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_o_u] 
- ON [orders] ([o_creator] ASC)
+	ON [orders] ([o_creator] ASC)
 GO
 
 ALTER TABLE [refresh_sessions] 
- ADD CONSTRAINT [PK_rs]
-	PRIMARY KEY CLUSTERED ([rs_id] ASC)
+	ADD CONSTRAINT [PK_rs] 
+		PRIMARY KEY CLUSTERED ([rs_id] ASC)
 GO
 
 CREATE NONCLUSTERED INDEX [IXFK_rs_u] 
- ON [refresh_sessions] ([rs_user_id] ASC)
+	ON [refresh_sessions] ([rs_user_id] ASC)
 GO
 
 ALTER TABLE [user_types] 
- ADD CONSTRAINT [PK_ut]
-	PRIMARY KEY CLUSTERED ([ut_id] ASC)
+	ADD CONSTRAINT [PK_ut] 
+		PRIMARY KEY CLUSTERED ([ut_id] ASC)
 GO
 
 ALTER TABLE [user_types] 
- ADD CONSTRAINT [UNQ_ut_name] UNIQUE NONCLUSTERED ([ut_name] ASC)
+	ADD CONSTRAINT [UNQ_ut_name] 
+		UNIQUE NONCLUSTERED ([ut_name] ASC)
 GO
 
 ALTER TABLE [users] 
- ADD CONSTRAINT [PK_u]
-	PRIMARY KEY CLUSTERED ([u_id] ASC)
+	ADD CONSTRAINT [PK_u] 
+		PRIMARY KEY CLUSTERED ([u_id] ASC)
 GO
 
 ALTER TABLE [users] 
- ADD CONSTRAINT [UNQ_u_email] UNIQUE NONCLUSTERED ([u_email] ASC)
+	ADD CONSTRAINT [UNQ_u_email] 
+		UNIQUE NONCLUSTERED ([u_email] ASC)
 GO
 
 /* Create Foreign Key Constraints */
 
-ALTER TABLE [books] ADD CONSTRAINT [FK_b_g]
-	FOREIGN KEY ([b_genre]) REFERENCES [genres] ([g_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [books] 
+	ADD CONSTRAINT [FK_b_g]
+	FOREIGN KEY ([b_genre]) REFERENCES [genres] ([g_id]) 
+		ON DELETE No Action 
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [m2m_orders_books] ADD CONSTRAINT [FK_m2mob_b]
-	FOREIGN KEY ([m2mob_b_isbn]) REFERENCES [books] ([b_isbn]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [m2m_orders_books] 
+	ADD CONSTRAINT [FK_m2mob_b]
+	FOREIGN KEY ([m2mob_b_isbn]) REFERENCES [books] ([b_isbn])
+		ON DELETE No Action 
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [m2m_orders_books] ADD CONSTRAINT [FK_m2mob_o]
-	FOREIGN KEY ([m2mob_o_id]) REFERENCES [orders] ([o_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [m2m_orders_books] 
+	ADD CONSTRAINT [FK_m2mob_o]
+	FOREIGN KEY ([m2mob_o_id]) REFERENCES [orders] ([o_id])
+		ON DELETE No Action 
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [m2m_users_user_types] ADD CONSTRAINT [FK_m2m_uut_u]
-	FOREIGN KEY ([m2muut_u_id]) REFERENCES [users] ([u_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [m2m_users_user_types] 
+	ADD CONSTRAINT [FK_m2m_uut_u]
+	FOREIGN KEY ([m2muut_u_id]) REFERENCES [users] ([u_id])
+		ON DELETE No Action
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [m2m_users_user_types] ADD CONSTRAINT [FK_m2muut_ut]
-	FOREIGN KEY ([m2muut_ut_id]) REFERENCES [user_types] ([ut_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [m2m_users_user_types] 
+	ADD CONSTRAINT [FK_m2muut_ut]
+	FOREIGN KEY ([m2muut_ut_id]) REFERENCES [user_types] ([ut_id])
+		ON DELETE No Action
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [orders] ADD CONSTRAINT [FK_o_os]
-	FOREIGN KEY ([o_status]) REFERENCES [order_statuses] ([os_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [orders] 
+	ADD CONSTRAINT [FK_o_os]
+	FOREIGN KEY ([o_status]) REFERENCES [order_statuses] ([os_id])
+		ON DELETE No Action
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [orders] ADD CONSTRAINT [FK_o_u]
-	FOREIGN KEY ([o_creator]) REFERENCES [users] ([u_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [orders] 
+	ADD CONSTRAINT [FK_o_u]
+	FOREIGN KEY ([o_creator]) REFERENCES [users] ([u_id])
+		ON DELETE No Action
+		ON UPDATE No Action
 GO
 
-ALTER TABLE [refresh_sessions] ADD CONSTRAINT [FK_rs_u]
-	FOREIGN KEY ([rs_user_id]) REFERENCES [users] ([u_id]) ON DELETE No Action ON UPDATE No Action
+ALTER TABLE [refresh_sessions] 
+	ADD CONSTRAINT [FK_rs_u]
+	FOREIGN KEY ([rs_user_id]) REFERENCES [users] ([u_id])
+		ON DELETE No Action
+		ON UPDATE No Action
 GO
