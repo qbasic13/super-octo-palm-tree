@@ -5,6 +5,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete'; 
 
 @NgModule({
   imports: [
@@ -13,7 +16,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -21,7 +27,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatToolbarModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule
   ]
 })
 export class AngularMaterialModule { }

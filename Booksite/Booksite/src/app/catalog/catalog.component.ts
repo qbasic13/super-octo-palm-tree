@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, Input,  } from '@angular/core';
+import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Observable, from } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { fromFetch } from 'rxjs/fetch';
 import { CatalogService } from '../catalog.service';
 
 interface Book {

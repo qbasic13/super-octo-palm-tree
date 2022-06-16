@@ -1,11 +1,17 @@
 .site-logo {
   display: flex;
   flex-direction: row;
-  flex: 1 1 auto;
   align-items: center;
 }
 
 .mat-toolbar {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-toolbar > app-book-search-bar {
+  flex-grow: 1;
+  max-width: 30rem;
 }

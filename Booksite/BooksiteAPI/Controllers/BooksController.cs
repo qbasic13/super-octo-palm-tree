@@ -82,7 +82,43 @@ namespace BooksiteAPI.Controllers
             return book;
         }
 
-        [HttpPut("{id}")]
+		[HttpGet("search")]
+		public async Task<ActionResult<List<BookSearchResDto>>> 
+			GetBookByTitle(string title)
+		{
+			title = title.Trim();
+			if(title.Length < 3)
+			{
+				return BadRequest();
+			}
+
+			if (_context.Books == null)
+			{
+				return NotFound();
+			}
+			var SearchRes = await _context.Books
+				.Where(b => b.BTitle.Contains(title))
+				.OrderByDescending(b => b.BQuantity)
+				.Take(5)
+				.Select(b =>
+				new BookSearchResDto
+				{
+					Isbn = b.BIsbn,
+					Title = b.BTitle,
+					Author = b.BAuthor,
+				}
+			).ToListAsync();
+
+			if (SearchRes == null)
+			{
+				return NotFound();
+			}
+
+			return SearchRes;
+		}
+
+
+		[HttpPut("{id}")]
         public async Task<IActionResult> PutBook(string id, Book book)
         {
             if (id != book.BIsbn)
