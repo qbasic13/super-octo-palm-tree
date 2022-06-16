@@ -12,6 +12,7 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { BookSearchBarComponent } from './book-search-bar/book-search-bar.component';
+import { NavMenuIconsComponent } from './nav-menu-icons/nav-menu-icons.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { BookSearchBarComponent } from './book-search-bar/book-search-bar.compon
     CatalogComponent,
     NavMenuComponent,
     FooterComponent,
-    BookSearchBarComponent
+    BookSearchBarComponent,
+    NavMenuIconsComponent
   ],
   imports: [
     BrowserModule,
