@@ -21,7 +21,6 @@ namespace BooksiteAPI.Controllers
             _context = context;
         }
 
-		// GET: api/Books
 		[HttpGet]
 		public async Task<ActionResult<CatalogPageDto>>
 			GetBooks(int page = 1, int items = 5)
@@ -52,7 +51,6 @@ namespace BooksiteAPI.Controllers
 			return new CatalogPageDto { books = dbBooks, count = dbCount };
 		}
 
-		// GET: api/Books/5
 		[HttpGet("{isbn}")]
         public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
         {
@@ -116,83 +114,6 @@ namespace BooksiteAPI.Controllers
 
 			return SearchRes;
 		}
-
-
-		[HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(string id, Book book)
-        {
-            if (id != book.BIsbn)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(book).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!BookExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
-        {
-          if (_context.Books == null)
-          {
-              return Problem("Entity set 'BooksiteContext.Books'  is null.");
-          }
-            _context.Books.Add(book);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (BookExists(book.BIsbn))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return CreatedAtAction("GetBook", new { id = book.BIsbn }, book);
-        }
-
-        // DELETE: api/Books/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(string id)
-        {
-            if (_context.Books == null)
-            {
-                return NotFound();
-            }
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
 
         private bool BookExists(string id)
         {
