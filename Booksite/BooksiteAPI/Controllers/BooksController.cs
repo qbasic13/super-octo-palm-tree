@@ -21,14 +21,25 @@ namespace BooksiteAPI.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
-        {
-          if (_context.Books == null)
-          {
-              return NotFound();
-          }
-			return await _context.Books.Select(b =>
+		// GET: api/Books
+		[HttpGet]
+		public async Task<ActionResult<CatalogPageDto>>
+			GetBooks(int page = 1, int items = 5)
+		{
+			if (page < 1 || items < 1) {
+				return BadRequest();
+			}
+
+			if (_context.Books == null)
+			{
+				return NotFound();
+			}
+
+			page -= 1;
+
+			var dbCount = await _context.Books.CountAsync();
+			var dbBooks = await _context.Books.OrderByDescending(b => b.BQuantity)
+				.Skip(page * items).Take(items).Select(b =>
 				new BookDto
 				{
 					Isbn = b.BIsbn,
@@ -38,9 +49,11 @@ namespace BooksiteAPI.Controllers
 					Price = b.BPrice ?? 0,
 					CoverFile = b.BCoverFile
 				}).ToListAsync();
+			return new CatalogPageDto { books = dbBooks, count = dbCount };
 		}
 
-        [HttpGet("{isbn}")]
+		// GET: api/Books/5
+		[HttpGet("{isbn}")]
         public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
         {
           if (_context.Books == null)
@@ -69,10 +82,10 @@ namespace BooksiteAPI.Controllers
             return book;
         }
 
-        [HttpPut("{isbn}")]
-        public async Task<IActionResult> PutBook(string isbn, Book book)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutBook(string id, Book book)
         {
-            if (isbn != book.BIsbn)
+            if (id != book.BIsbn)
             {
                 return BadRequest();
             }
@@ -123,6 +136,31 @@ namespace BooksiteAPI.Controllers
             }
 
             return CreatedAtAction("GetBook", new { id = book.BIsbn }, book);
+        }
+
+        // DELETE: api/Books/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBook(string id)
+        {
+            if (_context.Books == null)
+            {
+                return NotFound();
+            }
+            var book = await _context.Books.FindAsync(id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private bool BookExists(string id)
+        {
+            return (_context.Books?.Any(e => e.BIsbn == id)).GetValueOrDefault();
         }
     }
 }

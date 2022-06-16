@@ -33,7 +33,7 @@ app.UseStaticFiles(new StaticFileOptions()
 {
 	FileProvider = new PhysicalFileProvider(
 		app.Configuration.GetSection("ImageStorage").GetValue<string>("DefaultImagePath"," ")),
-	RequestPath = new PathString("/images")
+	RequestPath = new PathString("/img")
 });
 
 app.MapControllers();

@@ -1,12 +1,15 @@
 <header>
     <mat-toolbar color="primary">
-        <mat-icon-button [routerLink]="['/']">
+      <button mat-flat-button color="accent" [routerLink]="['/']">
+        <div class="site-logo">
             <mat-icon>
-                home
+              <img src="/assets/logo.svg" />
             </mat-icon>
-        </mat-icon-button>
-        <a mat-flat-button color="primary" [routerLink]="['/catalog']">
-            Catalog
-        </a>
+            Booksite
+        </div>
+      </button>
+      <div class="book-search">
+
+      </div>
     </mat-toolbar>
 </header>

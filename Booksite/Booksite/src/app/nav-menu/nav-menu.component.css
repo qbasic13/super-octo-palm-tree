@@ -1,0 +1,11 @@
+.site-logo {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 auto;
+  align-items: center;
+}
+
+.mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+}

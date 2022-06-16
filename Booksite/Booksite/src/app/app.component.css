@@ -1,0 +1,7 @@
+.container {
+    flex: 1 0 auto;
+}
+
+app-footer {
+  flex-shrink: 0;
+}

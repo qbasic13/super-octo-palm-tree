@@ -2,24 +2,21 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatCardModule } from '@angular/material/card';
-import { MatGridListModule } from '@angular/material/grid-list'; 
+import { AngularMaterialModule } from './angular-material.module';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppComponent } from './app.component';
 import { CatalogComponent } from './catalog/catalog.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CatalogComponent,
     NavMenuComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule, 
@@ -27,12 +24,8 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
     BrowserAnimationsModule, 
     AppRoutingModule, 
     BrowserAnimationsModule,
-    MatButtonModule, 
-    MatIconModule, 
-    MatToolbarModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    MatGridListModule
+    AngularMaterialModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [AppComponent]

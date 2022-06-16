@@ -1,11 +1,18 @@
 <h1>Booksite Catalog</h1>
-<div *ngIf="!books">
-  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-</div>
-<div *ngIf="books">
+
+<div>
+  <div class="center">
+    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+  </div>
+  <div class="spinner-container" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
   <div class="books-container">
-    <mat-card class="book-card" *ngFor="let book of books">
-      <img src="/images/covers/{{ book.isbn }}.jpg" />
+    <mat-card class="book-card" *ngFor="let book of books
+              | paginate:{ id: 'server', itemsPerPage: pageItems,
+                currentPage: currPage, totalItems: count }">
+      <img src="/img/covers/{{ book.isbn }}.jpg" *ngIf="!book.coverFile" />
+      <img src="/img/covers/{{ book.coverFile }}.jpg" *ngIf="book.coverFile" />
       <mat-card-content>
         <p></p>
         <mat-card-title>{{ book.title }}</mat-card-title>
@@ -21,3 +28,5 @@
     </mat-card>
   </div>
 </div>
+
+
