@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace BooksiteAPI.Data
+namespace BooksiteAPI.Models.Data
 {
     public partial class BooksiteContext : DbContext
     {
@@ -14,7 +14,6 @@ namespace BooksiteAPI.Data
         public BooksiteContext(DbContextOptions<BooksiteContext> options)
             : base(options)
         {
-		
         }
 
         public virtual DbSet<Book> Books { get; set; } = null!;
@@ -28,7 +27,11 @@ namespace BooksiteAPI.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-			
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=192.168.205.2;Initial Catalog=Booksite;Persist Security Info=True;User ID=sa;Password=mRADs7kGenNkRCBZ");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -198,9 +201,7 @@ namespace BooksiteAPI.Data
 
                 entity.HasIndex(e => e.RsUserId, "IXFK_rs_u");
 
-                entity.Property(e => e.RsId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("rs_id");
+                entity.Property(e => e.RsId).HasColumnName("rs_id");
 
                 entity.Property(e => e.RsCreatedAt).HasColumnName("rs_created_at");
 
