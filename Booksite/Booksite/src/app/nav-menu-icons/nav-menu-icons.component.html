@@ -4,26 +4,26 @@
     shopping_cart
   </mat-icon>
 </button>
-<button mat-icon-button aria-label="Orders"
+<button *ngIf="hasRole('verified') || hasRole('admin')" mat-icon-button aria-label="Orders"
         color="accent" [routerLink]="['/orders']">
   <mat-icon>
     assignment
   </mat-icon>
 </button>
-<button mat-icon-button aria-label="Profile"
+<button *ngIf="hasRole('verified') || hasRole('admin')" mat-icon-button aria-label="Profile"
         color="accent" [routerLink]="['/profile']">
   <mat-icon>
     account_circle
   </mat-icon>
 </button>
-<button mat-icon-button aria-label="Sign in / Sign up"
+<button *ngIf="!isLoggedIn()" mat-icon-button aria-label="Sign in / Sign up"
         color="accent" [routerLink]="['/signIn']">
   <mat-icon>
     login
   </mat-icon>
 </button>
-<button mat-icon-button aria-label="Sign out"
-        color="accent" [routerLink]="['/signOut']">
+<button  (click) ="signOut()" *ngIf="isLoggedIn()" mat-icon-button aria-label="Sign out"
+        color="accent" [routerLink]="['/']">
   <mat-icon>
     logout
   </mat-icon>

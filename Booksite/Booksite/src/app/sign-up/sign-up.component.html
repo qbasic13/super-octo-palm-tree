@@ -1,0 +1,64 @@
+<div class="container">
+  <mat-card>
+    <h1 class="form-title">Booksite Sign Up</h1>
+    <form class="form-container" [formGroup]="signUpForm" #loginForm="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="user@example.com" [formControl]="email" required />
+        <mat-error *ngIf="email.invalid">{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter a password</mat-label>
+          <input matInput
+                 [formControl]="password"
+                 [type]="hide ? 'password' : 'text'" />
+          <mat-hint class="multiline-hint">
+            Must be minimum eight characters, at least one uppercase letter, one lowercase letter
+            and one number
+          </mat-hint>
+          <mat-error *ngIf="password.invalid">{{ getErrorMessage('password') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Confirm password</mat-label>
+          <input matInput placeholder="confirmPassword"
+                 [formControl]="confirmPassword"
+                 [type]="hide ? 'password' : 'text'"/>
+          <mat-error *ngIf="confirmPassword.invalid">{{ getErrorMessage('confirmPassword') }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your phone number</mat-label>
+          <input matInput placeholder="+375290000000" [formControl]="phone" required />
+          <mat-error *ngIf="phone.invalid">{{ getErrorMessage('phone') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your first name</mat-label>
+          <input matInput placeholder="John" [formControl]="firstName" required />
+          <mat-error *ngIf="firstName.invalid">{{ getErrorMessage('firstName') }}</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your last name</mat-label>
+          <input matInput placeholder="Smith" [formControl]="lastName" />
+          <mat-error *ngIf="lastName.invalid">{{ getErrorMessage('lastName') }}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter your middle name</mat-label>
+          <input matInput placeholder="Huan" [formControl]="middleName" />
+          <mat-error *ngIf="middleName.invalid">{{ getErrorMessage('middleName') }}</mat-error>
+        </mat-form-field>
+      </div>
+      <button class="submit"
+              mat-raised-button
+              color="primary"
+              (click)="sendForm()">
+        {{ 'Sign Up' | uppercase }}
+      </button>
+    </form>
+    <p></p>
+    <a [routerLink]="['/signIn']">Already registered? Click here to Sign in.</a>
+  </mat-card>
+</div>

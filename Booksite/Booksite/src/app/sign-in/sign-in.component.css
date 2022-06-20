@@ -1,0 +1,31 @@
+.container {
+  margin: 2rem;
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: flex-start;
+  height:100%;
+}
+
+.form-container {
+  display: flex;
+  flex-flow: column wrap;
+  flex: 1 1 auto;
+  justify-content: center;
+  align-items: stretch;
+  min-width: 60vw;
+}
+
+.form-title {
+    font-weight: bold;
+    text-align:center;
+}
+
+.example-container {
+
+}
+
+mat-form-field {
+    justify-self: stretch;
+    padding-bottom: 2vh;
+}

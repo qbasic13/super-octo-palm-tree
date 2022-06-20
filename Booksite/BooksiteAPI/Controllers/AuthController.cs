@@ -24,7 +24,7 @@ namespace BooksiteAPI.Controllers
             _context = context;
         }
 
-        [HttpPost("signin")]
+		[HttpPost("signin")]
         public async Task<ActionResult<AuthResDto>> 
 			Signin(AuthReqDto loginData)
 		{
@@ -40,7 +40,7 @@ namespace BooksiteAPI.Controllers
 
 			AuthResDto authRes = await _jwtService.GetAccessAsync(loginData);
 			if (authRes == null || !authRes.IsSuccess) {
-				return Unauthorized();
+				return new AuthResDto { IsSuccess = false, Message = "incorrect email/password" };
 			}
 
 			Response.Cookies.Append("refresh",authRes.RefreshToken!, 
@@ -80,9 +80,14 @@ namespace BooksiteAPI.Controllers
 				_context.RefreshSessions.Remove(sessionsToDelete);
 				await _context.SaveChangesAsync();
 			}
-			Response.Cookies.Delete("refresh");
+			Response.Cookies.Append("refresh", "", new CookieOptions
+			{
+				HttpOnly = true,
+				Expires = DateTime.Now.AddDays(-1),
+				Path = "/api/auth"
+			});
 
-			return new AuthResDto {IsSuccess = true, Message = "SignedOut" };
+			return new AuthResDto {IsSuccess = true, Message = "signed out" };
 		}
 
 		[HttpPost("refresh")]
@@ -135,6 +140,63 @@ namespace BooksiteAPI.Controllers
 					Path = "/api/auth"
 				});
 			authRes.RefreshToken = "cookie";
+			return authRes;
+		}
+
+		[HttpPost("signup")]
+		public async Task<ActionResult<AuthResDto>>
+			Signup(RegisterDto regData)
+		{
+			if(_context.RefreshSessions == null
+				||_context.Users == null 
+				||_context.UserTypes == null)
+			{
+				return NotFound();
+			}
+
+			if(regData.FirstName == null
+				|| regData.Email == null
+				|| regData.Password == null 
+				|| regData.Fingerprint == null
+				|| regData.Phone == null)
+			{
+				return BadRequest();
+			}
+
+			//regect if account with this email exists
+			var userExists = await _context.Users.Where(
+				u => u.UEmail == regData.Email).FirstOrDefaultAsync() != null;
+			if(userExists)
+			{
+				return new AuthResDto { IsSuccess = false, 
+					Message = "email already used" };
+			}
+
+			User newUser = new()
+			{
+				UEmail = regData.Email,
+				UPassword = regData.Password,
+				UFirstName = regData.FirstName,
+				ULastName = regData.LastName,
+				UMiddleName = regData.MiddleName,
+				UPhone = regData.Phone,
+				URegisterDt = DateTime.Now
+			};
+			newUser.M2muutUts.Add(_context.UserTypes
+				.First(ut => ut.UtName == "unverified"));
+			_context.Users.Add(newUser);
+			await _context.SaveChangesAsync();
+
+			AuthResDto authRes = await _jwtService.GetAccessAsync(regData);
+			Response.Cookies.Append("refresh", authRes.RefreshToken!,
+				new CookieOptions
+				{
+					HttpOnly = true,
+					Expires = DateTime.UtcNow.AddDays(30),
+					Path = "/api/auth"
+				});
+			authRes.RefreshToken = "cookie";
+			authRes.Message = "successfuly registered";
 			return authRes;
 		}
 

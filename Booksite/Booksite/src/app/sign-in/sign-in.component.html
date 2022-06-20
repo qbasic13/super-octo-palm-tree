@@ -1,0 +1,32 @@
+<div class="container">
+  <mat-card>
+    <h1 class="form-title">Booksite Sign In</h1>
+    <form class="form-container" [formGroup]="signInForm" #loginForm="ngForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter your email</mat-label>
+        <input matInput placeholder="user@example.com" [formControl]="email" required />
+        <mat-error *ngIf="email.invalid">{{ getErrorMessage('email') }}</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Enter a password</mat-label>
+        <input matInput
+               [formControl]="password"
+               (keyup.enter)="sendForm(); $event.preventDefault()"
+               [type]="hide ? 'password' : 'text'" />
+        <mat-hint class="multiline-hint">
+          Must be minimum eight characters, at least one uppercase letter, one lowercase letter
+          and one number
+        </mat-hint>
+        <mat-error *ngIf="password.invalid">{{ getErrorMessage('password') }}</mat-error>
+      </mat-form-field>
+      <button class="submit"
+              mat-raised-button
+              color="primary"
+              (click)="sendForm()">
+        {{ 'Sign In' | uppercase }}
+      </button>
+    </form>
+    <p></p>
+    <a [routerLink]="['/signUp']">Not registered yet? Click here to Sign up.</a>
+  </mat-card>
+</div>

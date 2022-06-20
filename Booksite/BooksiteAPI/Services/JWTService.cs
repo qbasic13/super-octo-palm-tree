@@ -85,7 +85,7 @@ namespace BooksiteAPI.Services
 			{
 				Subject = new ClaimsIdentity(new Claim[]
 				{
-					new Claim(ClaimTypes.NameIdentifier, req.Email!),
+					new Claim(ClaimTypes.Email, req.Email!),
 					new Claim(ClaimTypes.Role, role!),
 					new Claim("fingerprint", req.Fingerprint!),
 
