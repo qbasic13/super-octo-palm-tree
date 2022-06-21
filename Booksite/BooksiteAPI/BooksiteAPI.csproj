@@ -28,4 +28,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\qbs_win\Documents\6_sem\company_practice\project\Booksite\BooksiteAPI\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\qbs_win\Documents\6_sem\company_practice\project\Booksite\BooksiteAPI\.editorconfig" />
+  </ItemGroup>
+
 </Project>
