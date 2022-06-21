@@ -10,16 +10,16 @@ using BooksiteAPI.Data;
 
 namespace BooksiteAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class BooksController : ControllerBase
-    {
-        private readonly BooksiteContext _context;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class BooksController : ControllerBase
+	{
+		private readonly BooksiteContext _context;
 
-        public BooksController(BooksiteContext context)
-        {
-            _context = context;
-        }
+		public BooksController(BooksiteContext context)
+		{
+			_context = context;
+		}
 
 		[HttpGet]
 		public async Task<ActionResult<CatalogPageDto>>
@@ -52,12 +52,12 @@ namespace BooksiteAPI.Controllers
 		}
 
 		[HttpGet("{isbn}")]
-        public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
-        {
-        	if (_context.Books == null)
-        	{
-            	return NotFound();
-          	}
+		public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
+		{
+			if (_context.Books == null)
+			{
+				return NotFound();
+			}
 			
 			if( isbn.Length < 13 || isbn.Length > 17)
 			{
@@ -78,13 +78,13 @@ namespace BooksiteAPI.Controllers
 				}
 			).SingleOrDefaultAsync(b => b.Isbn == isbn);
 
-            if (book == null)
-            {
-                return NotFound();
-            }
+			if (book == null)
+			{
+				return NotFound();
+			}
 
-            return book;
-        }
+			return book;
+		}
 
 		[HttpGet("search")]
 		public async Task<ActionResult<List<BookSearchResDto>>> 
@@ -122,8 +122,8 @@ namespace BooksiteAPI.Controllers
 		}
 
         private bool BookExists(string id)
-        {
-            return (_context.Books?.Any(e => e.BIsbn == id)).GetValueOrDefault();
-        }
+		{
+			return (_context.Books?.Any(e => e.BIsbn == id)).GetValueOrDefault();
+		}
     }
 }

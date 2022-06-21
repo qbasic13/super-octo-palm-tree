@@ -4,8 +4,8 @@ using System.Text.Json.Serialization;
 
 namespace BooksiteAPI.Data
 {
-    public partial class Book
-    {
+	public partial class Book
+	{
 		public Book()
 		{
 			M2mOrdersBooks = new HashSet<M2mOrdersBook>();
