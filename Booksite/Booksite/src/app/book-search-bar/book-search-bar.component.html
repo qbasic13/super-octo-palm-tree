@@ -1,0 +1,17 @@
+<form class="example-form">
+  <mat-form-field appearance="fill">
+    <input matInput type="search" placeholder="Enter book title..."
+           aria-label="State" [matAutocomplete]="auto" [formControl]="searchBarCtrl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+      <ng-container *ngIf="!isLoading">
+        <mat-option *ngFor="let book of bookSearchResults" [value]="book.isbn">
+          <span>
+            {{book.title}}
+            | {{book.author}}
+          </span>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
