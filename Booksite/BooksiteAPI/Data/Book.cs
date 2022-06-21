@@ -6,13 +6,13 @@ namespace BooksiteAPI.Data
 {
     public partial class Book
     {
-        public Book()
-        {
-            M2mOrdersBooks = new HashSet<M2mOrdersBook>();
-        }
+		public Book()
+		{
+			M2mOrdersBooks = new HashSet<M2mOrdersBook>();
+		}
 
 		[JsonPropertyName("isbn")]
-        public string BIsbn { get; set; } = null!;
+		public string BIsbn { get; set; } = null!;
 		[JsonPropertyName("genre")]
 		public int BGenre { get; set; }
 		[JsonPropertyName("title")]
@@ -28,7 +28,7 @@ namespace BooksiteAPI.Data
 		[JsonPropertyName("coverFile")]
 		public string? BCoverFile { get; set; }
 
-        public virtual Genre BGenreNavigation { get; set; } = null!;
-        public virtual ICollection<M2mOrdersBook> M2mOrdersBooks { get; set; }
-    }
+		public virtual Genre BGenreNavigation { get; set; } = null!;
+		public virtual ICollection<M2mOrdersBook> M2mOrdersBooks { get; set; }
+	}
 }

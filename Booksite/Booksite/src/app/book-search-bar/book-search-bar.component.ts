@@ -1,13 +1,8 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { BookSearchService } from '../book-search.service';
-
-interface BookSearchResult {
-  isbn: string;
-  title: string;
-  author: string;
-}
+import { BookSearchService } from 'src/app/services/book-search.service';
+import { BookSearchResult } from 'src/app/models/book-search.model';
 
 @Component({
   selector: 'app-book-search-bar',

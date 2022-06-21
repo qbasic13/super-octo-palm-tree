@@ -2,7 +2,7 @@
 {
 	public class CatalogPageDto
 	{
-		public List<BookDto>? books { get; set; }
-		public int count { get; set; }
+		public List<BookDto>? Books { get; set; }
+		public int Count { get; set; }
 	}
 }

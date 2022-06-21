@@ -54,10 +54,16 @@ namespace BooksiteAPI.Controllers
 		[HttpGet("{isbn}")]
         public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
         {
-          if (_context.Books == null)
-          {
-              return NotFound();
-          }
+        	if (_context.Books == null)
+        	{
+            	return NotFound();
+          	}
+			
+			if( isbn.Length < 13 || isbn.Length > 17)
+			{
+				return BadRequest();
+			}
+
 			var book = await _context.Books.
 				Include(b => b.BGenreNavigation).Select(b =>
 				new BookDetailsDto

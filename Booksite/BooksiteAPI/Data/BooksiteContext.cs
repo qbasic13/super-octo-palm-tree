@@ -7,15 +7,16 @@ namespace BooksiteAPI.Data
 {
     public partial class BooksiteContext : DbContext
     {
-        public BooksiteContext()
-        {
-        }
+		public BooksiteContext() 
+		{
+
+		}
 
         public BooksiteContext(DbContextOptions<BooksiteContext> options)
-            : base(options)
-        {
+			: base(options)
+		{
 		
-        }
+		}
 
         public virtual DbSet<Book> Books { get; set; } = null!;
         public virtual DbSet<Genre> Genres { get; set; } = null!;
@@ -26,10 +27,10 @@ namespace BooksiteAPI.Data
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserType> UserTypes { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-			
-        }
+		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+		{
+		
+		}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
