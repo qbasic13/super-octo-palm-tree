@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -9,11 +9,13 @@ namespace BooksiteAPI.Data
     {
         public BooksiteContext()
         {
+
         }
 
         public BooksiteContext(DbContextOptions<BooksiteContext> options)
             : base(options)
         {
+
         }
 
         public virtual DbSet<Book> Books { get; set; } = null!;
@@ -27,10 +29,7 @@ namespace BooksiteAPI.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
 
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
