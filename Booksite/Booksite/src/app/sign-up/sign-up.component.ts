@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthReq, AuthRes, AuthService, RegReq } from '../auth.service';
+import { AuthReq, AuthRes, RegReq } from 'src/app/models/auth.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { SnackNotifyComponent } from '../snack-notify/snack-notify.component';
 

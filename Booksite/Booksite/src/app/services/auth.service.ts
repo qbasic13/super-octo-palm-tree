@@ -4,37 +4,12 @@ import { Observable } from 'rxjs';
 import { sha3_512 } from '@noble/hashes/sha3';
 import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { bytesToHex } from '@noble/hashes/utils';
+import { AuthReq, AuthRes, RegReq } from 'src/app/models/auth.model';
 
 const endpoint = "api/auth"
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-
 };
-
-export interface AuthReq {
-  email: string,
-  password: string,
-  fingerprint: string
-}
-
-export interface RegReq extends AuthReq {
-  lastName?: string,
-  firstName: string,
-  middleName?: string,
-  phone: string
-}
-
-export interface AuthRes {
-  isSuccess: boolean;
-  message: string;
-  accessToken: string;
-}
-export interface User {
-  email: string,
-  role: string,
-  access: string,
-  fingerprint: string
-}
 
 @Injectable({
   providedIn: 'root'

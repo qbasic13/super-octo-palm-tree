@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using BooksiteAPI.Data;
+using BooksiteAPI.Models.Mail;
 using BooksiteAPI.Services;
 using Microsoft.Extensions.FileProviders;
 using System.Reflection;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.Certificate;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -81,6 +83,17 @@ if (!Directory.Exists(pathToImages))
 {
 	throw new Exception("Incorrect path to images directory specified");
 }
+
+// Configure mail service
+builder.Services.Configure<MailSettings>(
+	builder.Configuration.GetSection("MailSettings"));
+
+builder.Services.AddTransient<IMailService, MailService>();
+
+builder.Services.AddAuthentication(
+		CertificateAuthenticationDefaults.AuthenticationScheme)
+	.AddCertificate(opts => opts.AllowedCertificateTypes = CertificateTypes.All);
+
 
 var app = builder.Build();
 

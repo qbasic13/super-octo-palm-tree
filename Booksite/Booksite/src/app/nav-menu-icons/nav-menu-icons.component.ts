@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { SnackNotifyComponent } from '../snack-notify/snack-notify.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { SnackNotifyComponent } from 'src/app/snack-notify/snack-notify.component';
 
 @Component({
   selector: 'app-nav-menu-icons',
@@ -16,7 +16,7 @@ export class NavMenuIconsComponent {
 
   signOut() {
     this.authService.signOut();
-    this.snack.openSnackBar(`Successfuly signed out`, 'Ok');
+    this.snack.openSnackBar('Successfuly signed out', 'Ok');
   }
 
   hasRole(role: string) {

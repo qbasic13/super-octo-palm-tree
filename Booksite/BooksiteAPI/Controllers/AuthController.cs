@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,13 +16,16 @@ namespace BooksiteAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly BooksiteContext _context;
-		private readonly IJWTService _jwtService;
+		private readonly IJWTService _jwt;
+		private readonly IMailService _mail;
 
-		public AuthController(IJWTService jwtService, BooksiteContext context)
-        {
-			_jwtService = jwtService;
-            _context = context;
-        }
+		public AuthController(IJWTService jwtService, BooksiteContext context, 
+			IMailService mailService)
+		{
+			_jwt = jwtService;
+			_context = context;
+			_mail = mailService;
+		}
 
 		[HttpPost("signin")]
         public async Task<ActionResult<AuthResDto>> 
@@ -38,7 +41,7 @@ namespace BooksiteAPI.Controllers
 				return BadRequest();
 			}
 
-			AuthResDto authRes = await _jwtService.GetAccessAsync(loginData);
+			AuthResDto authRes = await _jwt.GetAccessAsync(loginData);
 			if (authRes == null || !authRes.IsSuccess) {
 				return new AuthResDto { IsSuccess = false, Message = "incorrect email/password" };
 			}
@@ -114,7 +117,7 @@ namespace BooksiteAPI.Controllers
 			
 			if (refreshSession is null)
 			{
-				return new AuthResDto { IsSuccess = false, Message = "not_found" };
+				return new AuthResDto { IsSuccess = false, Message = "not found" };
 			}
 
 			if (refreshSession.RsExpiresIn < DateTime.UtcNow) {
@@ -124,12 +127,12 @@ namespace BooksiteAPI.Controllers
 				return new AuthResDto { IsSuccess = false, Message = "expired" };
 			}
 
-			AuthResDto authRes =  await _jwtService.GetRefreshAsync(
+			AuthResDto authRes =  await _jwt.GetRefreshAsync(
 				refreshSession.RsUserId,refreshToken,fingerprint);
 
 			if (authRes == null || !authRes.IsSuccess)
 			{
-				return new AuthResDto { IsSuccess = false, Message = "server_error" };
+				return new AuthResDto { IsSuccess = false, Message = "server error" };
 			}
 
 			Response.Cookies.Append("refresh", authRes.RefreshToken!,
@@ -172,6 +175,7 @@ namespace BooksiteAPI.Controllers
 					Message = "email already used" };
 			}
 
+			//Add new user and user role to db
 			User newUser = new()
 			{
 				UEmail = regData.Email,
@@ -182,12 +186,37 @@ namespace BooksiteAPI.Controllers
 				UPhone = regData.Phone,
 				URegisterDt = DateTime.Now
 			};
-			newUser.M2muutUts.Add(_context.UserTypes
-				.First(ut => ut.UtName == "unverified"));
-			_context.Users.Add(newUser);
 			await _context.SaveChangesAsync();
 
-			AuthResDto authRes = await _jwtService.GetAccessAsync(regData);
+			//send email with verification link
+			var res = await _mail.SendMailAsync(new Models.Mail.MailReqDto
+			{
+				Subject = "Booksite: Confirm your email",
+				Body = $"Greetings, {regData.FirstName}. " +
+				$"To get verified status please visit this link: " +
+				$"https://localhost:4200/verify/{regData.Email}",
+				ToEmail = regData.Email
+			});
+
+			//if verification email was sent, set unverified status
+			//if something went wrong, set verified by default
+			if (res)
+			{
+				newUser.M2muutUts.Add(_context.UserTypes
+					.First(ut => ut.UtName == "unverified"));
+				_context.Users.Add(newUser);
+				await _context.SaveChangesAsync();
+			} 
+			else
+			{
+				newUser.M2muutUts.Add(_context.UserTypes
+					.First(ut => ut.UtName == "verified"));
+				_context.Users.Add(newUser);
+				await _context.SaveChangesAsync();
+			}
+
+
+			AuthResDto authRes = await _jwt.GetAccessAsync(regData);
 			Response.Cookies.Append("refresh", authRes.RefreshToken!,
 				new CookieOptions
 				{
