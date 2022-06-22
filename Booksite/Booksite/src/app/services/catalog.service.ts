@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CatalogService {
-  private endpoint = "/api/books";
+  private endpoint = '/api/books';
   constructor(private http: HttpClient) { }
 
   getCatalogPage(page: number, items: number): Observable<any> {

@@ -86,6 +86,8 @@ namespace BooksiteAPI.Services
             var tokenHandler = new JwtSecurityTokenHandler();
             var descriptor = new SecurityTokenDescriptor()
             {
+                Audience = _config["JWT:ValidAudience"],
+                Issuer = _config["JWT:ValidIssuers:0"],
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.Email, req.Email!),

@@ -16,9 +16,3 @@ export interface AuthRes {
   message: string;
   accessToken: string;
 }
-export interface User {
-  email: string,
-  role: string,
-  access: string,
-  fingerprint: string
-}

@@ -1,9 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { AuthReq, AuthRes, RegReq } from 'src/app/models/auth.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { SnackNotifyComponent } from '../snack-notify/snack-notify.component';
+import {
+  createPasswordStrengthValidator, createConfirmPasswordValidator,
+  createPhoneValidator
+} from 'src/app/helpers/custom-validators';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,14 +20,12 @@ export class SignUpComponent {
   @ViewChild('signupForm') signupForm: any;
   signUpForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [Validators.required]);
-  confirmPassword = new FormControl('', [Validators.required]);
-  phone = new FormControl('', [Validators.required, Validators.pattern('(([+][(]?[0-9]{1,3}[)]?)|([(]?[0-9]{4}[)]?))\s*[)]?[-\s\.]?[(]?[0-9]{1,3}[)]?([-\s\.]?[0-9]{3})([-\s\.]?[0-9]{3,4})')]);
+  password = new FormControl('', [Validators.required, createPasswordStrengthValidator()]);
+  confirmPassword = new FormControl('', [Validators.required, createConfirmPasswordValidator()]);
+  phone = new FormControl('', [Validators.required, createPhoneValidator()]);
   firstName = new FormControl('', [Validators.required]);
   lastName = new FormControl('', [Validators.maxLength(32)]);
   middleName = new FormControl('', [Validators.maxLength(32)]);
-  hide = true;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -48,6 +51,9 @@ export class SignUpComponent {
       return 'You must enter a value';
     } else if (classField?.hasError('email')) {
       return 'Not a valid email';
+    } else if (classField?.hasError('passwordStrength')) {
+      return 'Must be minimum eight characters, at least 1'
+        + ' uppercase letter, 1 lowercase letter and 1 number';
     } else if (classField?.hasError('confirmPassword')) {
       return 'Passwords must match';
     } else if (classField?.hasError('phone')) {

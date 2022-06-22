@@ -10,20 +10,13 @@
       <div class="horizontal-division">
         <mat-form-field appearance="outline">
           <mat-label>Enter a password</mat-label>
-          <input matInput
-                 [formControl]="password"
-                 [type]="hide ? 'password' : 'text'" />
-          <mat-hint class="multiline-hint">
-            Must be minimum eight characters, at least one uppercase letter, one lowercase letter
-            and one number
-          </mat-hint>
+          <input matInput [formControl]="password" [type]="'password'" />
+          <mat-hint class="multiline-hint"> </mat-hint>
           <mat-error *ngIf="password.invalid">{{ getErrorMessage('password') }}</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Confirm password</mat-label>
-          <input matInput placeholder="confirmPassword"
-                 [formControl]="confirmPassword"
-                 [type]="hide ? 'password' : 'text'"/>
+          <input matInput placeholder="confirmPassword" [formControl]="confirmPassword" [type]="'password'" />
           <mat-error *ngIf="confirmPassword.invalid">{{ getErrorMessage('confirmPassword') }}</mat-error>
         </mat-form-field>
       </div>
@@ -54,6 +47,7 @@
       <button class="submit"
               mat-raised-button
               color="primary"
+              [disabled]="!this.signUpForm.valid"
               (click)="sendForm()">
         {{ 'Sign Up' | uppercase }}
       </button>

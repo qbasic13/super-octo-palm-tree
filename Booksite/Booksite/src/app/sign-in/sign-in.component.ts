@@ -4,6 +4,7 @@ import { AuthReq, AuthRes } from 'src/app/models/auth.model';
 import { AuthService } from 'src/app/services/auth.service'; 
 import { Router } from '@angular/router';
 import { SnackNotifyComponent } from '../snack-notify/snack-notify.component';
+import { createPasswordStrengthValidator } from 'src/app/helpers/custom-validators';
 
 @Component({
   selector: 'app-sign-in',
@@ -14,8 +15,8 @@ export class SignInComponent {
   @ViewChild('signinForm') signinForm: any;
   signInForm: FormGroup;
   email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl('', [Validators.required]);
-  hide = true;
+  password = new FormControl('', [Validators.required, Validators.minLength(8),
+    createPasswordStrengthValidator()]);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +37,9 @@ export class SignInComponent {
       return 'You must enter a value';
     } else if (classField?.hasError('email')) {
       return 'Not a valid email';
+    } else if (classField?.hasError('passwordStrength')) {
+      return 'Must be minimum eight characters, at least 1'
+        + ' uppercase letter, 1 lowercase letter and 1 number';
     }
   }
 

@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
   providedIn: 'root'
 })
 export class BookSearchService {
-  private endpoint = "api/books/search";
+  private endpoint = 'api/books/search';
   constructor(private http: HttpClient) { }
 
   search(title: string): Observable<any> {

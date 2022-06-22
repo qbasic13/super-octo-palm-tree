@@ -2,12 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BooksiteAPI.Data;
 using BooksiteAPI.Models.Auth;
 using BooksiteAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BooksiteAPI.Controllers
 {
@@ -171,7 +173,7 @@ namespace BooksiteAPI.Controllers
                 return BadRequest();
             }
 
-            //regect if account with this email exists
+            //reject if account with this email exists
             var userExists = await _context.Users.Where(
                 u => u.UEmail == regData.Email).FirstOrDefaultAsync() != null;
             if (userExists)
@@ -201,8 +203,8 @@ namespace BooksiteAPI.Controllers
             {
                 Subject = "Booksite: Confirm your email",
                 Body = $"Greetings, {regData.FirstName}. " +
-                $"To get verified status please visit this link: " +
-                $"https://localhost:4200/verify/{regData.Email}",
+                $"To get verified status please click this link: " +
+                $"<a href=\"https://localhost:4200/verify?email={regData.Email}\">verify</a>",
                 ToEmail = regData.Email
             });
 
@@ -234,6 +236,74 @@ namespace BooksiteAPI.Controllers
             authRes.RefreshToken = "cookie";
             authRes.Message = "successfuly registered";
             return authRes;
+        }
+
+        [HttpPost("verify")]
+        public async Task<ActionResult<AuthResDto>>
+            VerifyEmail(string email)
+        {
+            if (_context.RefreshSessions == null
+                || _context.Users == null
+                || _context.UserTypes == null)
+            {
+                return NotFound();
+            }
+
+            if (email == null || !_mail.ValidateEmail(email))
+            {
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "bad email address"
+                };
+            }
+
+            email = email.Trim();
+
+            //reject if account with this email doesn't exist
+            var user = await _context.Users.Include(ut => ut.M2muutUts)
+                .Where(u => u.UEmail == email).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "email not found"
+                };
+            }
+
+            var unverifiedStatus = user.M2muutUts
+                .Where(ut => ut.UtName == "unverified").FirstOrDefault();
+            //check if account has unverified status
+            if (unverifiedStatus == null)
+            {
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "user is already verified"
+                };
+            }
+
+            //Remove unverified and assign verified status
+            var verifiedStatus = await _context.UserTypes
+                .Where(ut => ut.UtName == "verified").SingleAsync();
+            user.M2muutUts.Remove(unverifiedStatus);
+            user.M2muutUts.Add(verifiedStatus);
+            await _context.SaveChangesAsync();
+
+            return new AuthResDto
+            {
+                IsSuccess = true,
+                Message = $"successfuly verified {email}"
+            };
+        }
+
+        [Authorize(Roles = "admin,verified,unverified")]
+        [HttpPost("accessTest")]
+        public async Task<ActionResult<string>> AccessTest()
+        {
+            return await Task.FromResult(User.Claims.First(
+                c => c.Type == "role").Value);
         }
 
         private bool RefreshSessionExists(long id)

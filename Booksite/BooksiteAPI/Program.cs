@@ -91,11 +91,6 @@ builder.Services.Configure<MailSettings>(
 
 builder.Services.AddTransient<IMailService, MailService>();
 
-builder.Services.AddAuthentication(
-        CertificateAuthenticationDefaults.AuthenticationScheme)
-    .AddCertificate(opts => opts.AllowedCertificateTypes = CertificateTypes.All);
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

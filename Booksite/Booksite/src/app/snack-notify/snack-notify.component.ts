@@ -8,9 +8,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class SnackNotifyComponent {
   durationInSeconds = 3;
-  constructor(private _snackBar: MatSnackBar) { }
+  constructor(private snackBar: MatSnackBar) { }
 
   openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, { duration: this.durationInSeconds * 1000 });
+    this.snackBar.open(message, action, { duration: this.durationInSeconds * 1000 });
   }
 }

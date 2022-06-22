@@ -16,6 +16,7 @@ import { NavMenuIconsComponent } from './nav-menu-icons/nav-menu-icons.component
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SnackNotifyComponent } from './snack-notify/snack-notify.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { SnackNotifyComponent } from './snack-notify/snack-notify.component';
     NavMenuIconsComponent,
     SignInComponent,
     SignUpComponent,
-    SnackNotifyComponent
+    SnackNotifyComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,

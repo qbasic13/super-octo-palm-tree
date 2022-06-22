@@ -14,8 +14,8 @@ export class NavMenuIconsComponent {
     private snack: SnackNotifyComponent
   ) { }
 
-  signOut() {
-    this.authService.signOut();
+  async signOut() {
+    await this.authService.signOut();
     this.snack.openSnackBar('Successfuly signed out', 'Ok');
   }
 
