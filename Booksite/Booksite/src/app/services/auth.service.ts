@@ -72,6 +72,18 @@ export class AuthService {
     localStorage.setItem('role', jwtPayload.role);
   }
 
+  hasRole(...params: string[]) {
+    const userRole = localStorage.getItem('role');
+    if (!userRole)
+      return false;
+    const res = params.includes(userRole);
+    return res;
+  }
+
+  isLoggedIn() {
+    return localStorage.getItem('email') !== null;
+  }
+
   async getFingerprint(): Promise<string> {
     const fingerprint = localStorage.getItem('fingerprint');
     if (fingerprint === null) {

@@ -10,14 +10,13 @@ namespace BooksiteAPI.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-
-        private readonly BookService _books;
-        public BookController(BookService books)
+        private readonly IBookService _books;
+        public BookController(IBookService books)
         {
             _books = books;
         }
 
-        [HttpGet("{isbn}")]
+        [HttpGet]
         public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
         {
             var BookSearchResult = await _books.GetBookAsync(isbn);
@@ -44,6 +43,7 @@ namespace BooksiteAPI.Controllers
 
             return BookEditResult;
         }
+
         [Authorize(Roles = "admin")]
         [HttpPost("add")]
         public async Task<ActionResult<BookDetailsDto>>

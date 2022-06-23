@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { CatalogService } from 'src/app/services/catalog.service';
-import { Book, CatalogPage } from 'src/app/models/catalog.model';
+import { Book, CatalogPage } from 'src/app/models/books.model';
 
 @Component({
   selector: 'app-catalog',

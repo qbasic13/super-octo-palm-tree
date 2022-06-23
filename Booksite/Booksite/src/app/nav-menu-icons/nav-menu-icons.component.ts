@@ -19,11 +19,11 @@ export class NavMenuIconsComponent {
     this.snack.openSnackBar('Successfuly signed out', 'Ok');
   }
 
-  hasRole(role: string) {
-    return localStorage.getItem('role') === role;
+  hasRole(...params: string[]) {
+    return this.authService.hasRole(...params);
   }
   isLoggedIn() {
-    return localStorage.getItem('email') !== null;
+    return this.authService.isLoggedIn();
   }
 
 }

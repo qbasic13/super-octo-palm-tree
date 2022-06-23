@@ -103,7 +103,7 @@ namespace BooksiteAPI.Services
             return editedBook;
         }
 
-        bool ValidateIsbn(string isbn)
+        public bool ValidateIsbn(string isbn)
         {
             isbn.Trim();
             if (isbn.Length != 13)
@@ -119,7 +119,9 @@ namespace BooksiteAPI.Services
                 checkDigit += int.Parse(isbn.Substring(i - 1, 1)) * ((i % 2) > 0 ? 1 : 3);
             }
             checkDigit = checkDigit % 10;
-            return int.Parse(isbn.Substring(12, 1)) == checkDigit;
+            checkDigit = checkDigit != 0 ? 10 - checkDigit : 0;
+            int isbnDigit = int.Parse(isbn.Substring(12, 1));
+            return checkDigit == isbnDigit;
         }
     }
 }

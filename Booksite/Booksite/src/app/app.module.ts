@@ -17,6 +17,7 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SnackNotifyComponent } from './snack-notify/snack-notify.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
+import { BookDetailsComponent } from './book-details/book-details.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
     SignInComponent,
     SignUpComponent,
     SnackNotifyComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    BookDetailsComponent
   ],
   imports: [
     BrowserModule,

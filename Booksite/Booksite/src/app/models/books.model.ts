@@ -4,7 +4,12 @@ export interface Book {
   author: string;
   quantity: number;
   price: number;
-  coverFile: string;
+  coverFile?: string;
+}
+
+export interface BookDetails extends Book {
+  genre: string;
+  publishYear: string;
 }
   
 export interface CatalogPage {

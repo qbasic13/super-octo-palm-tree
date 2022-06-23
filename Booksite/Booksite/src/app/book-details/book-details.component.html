@@ -1,0 +1,38 @@
+<div class="book-details-container">
+  <div class="spinner-container" *ngIf="hide">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <div class="book-container" *ngIf="!hide && !isError">
+    <div class="image-container">
+      <img src="/img/covers/{{ book.isbn }}.jpg" *ngIf="!book.coverFile" />
+      <img src="/img/covers/{{ book.coverFile }}.jpg" *ngIf="book.coverFile" />
+      <div class="buttons-container">
+        <button mat-flat-button color="accent" *ngIf="book.quantity > 0"
+                [routerLink]="['/']">
+          <mat-icon>
+            add_shopping_cart
+          </mat-icon>
+          Add to cart
+        </button>
+        <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
+                [routerLink]="['/']">
+          <mat-icon>
+            note_alt
+          </mat-icon>
+          Edit details
+        </button>
+      </div>
+    </div>
+    <div class="details-container">
+      <h1>{{ book.title }}</h1>
+      <span>Written by {{ book.author }} </span>
+      <span>ISBN: {{ book.isbn }} </span>
+      <span>Genre: {{ book.genre }} </span>
+      <span>Quantity: {{ book.quantity }} </span>
+      <span *ngIf="book.quantity > 0">Price: {{ book.price }} </span>
+    </div>
+  </div>
+  <mat-card class="info-card fail" *ngIf="!hide && isError">
+    <span>Error: {{errorText}}</span>
+  </mat-card>
+</div>
