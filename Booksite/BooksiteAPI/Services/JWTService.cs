@@ -45,6 +45,7 @@ namespace BooksiteAPI.Services
             return await SaveTokenDetails(user, req.Fingerprint!,
                 accessToken, refreshToken);
         }
+
         public async Task<AuthResDto> GetRefreshAsync(
             int userId, Guid oldRefresh, string fingerprint)
         {
@@ -105,6 +106,7 @@ namespace BooksiteAPI.Services
             string tokenString = tokenHandler.WriteToken(token);
             return tokenString;
         }
+
         private static string GenerateRefreshToken()
         {
             return Guid.NewGuid().ToString();
@@ -142,7 +144,7 @@ namespace BooksiteAPI.Services
                 });
             }
 
-            int res = await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return new AuthResDto
             {
                 IsSuccess = true,
