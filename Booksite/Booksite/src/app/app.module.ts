@@ -13,6 +13,10 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { BookSearchBarComponent } from './book-search-bar/book-search-bar.component';
 import { NavMenuIconsComponent } from './nav-menu-icons/nav-menu-icons.component';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { SignUpComponent } from './sign-up/sign-up.component';
+import { SnackNotifyComponent } from './snack-notify/snack-notify.component';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import { NavMenuIconsComponent } from './nav-menu-icons/nav-menu-icons.component
     NavMenuComponent,
     FooterComponent,
     BookSearchBarComponent,
-    NavMenuIconsComponent
+    NavMenuIconsComponent,
+    SignInComponent,
+    SignUpComponent,
+    SnackNotifyComponent,
+    VerifyEmailComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +42,7 @@ import { NavMenuIconsComponent } from './nav-menu-icons/nav-menu-icons.component
     AngularMaterialModule,
     NgxPaginationModule
   ],
-  providers: [],
+  providers: [SnackNotifyComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

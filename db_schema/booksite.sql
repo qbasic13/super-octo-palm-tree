@@ -270,7 +270,7 @@ GO
 
 CREATE TABLE [refresh_sessions]
 (
-	[rs_id] bigint NOT NULL,
+	[rs_id] bigint NOT NULL IDENTITY(1,1),
 	[rs_user_id] int NOT NULL,
 	[rs_refresh_token] uniqueidentifier NOT NULL,
 	[rs_fingerprint] nvarchar(150) NOT NULL,

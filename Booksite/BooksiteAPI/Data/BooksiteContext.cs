@@ -199,9 +199,7 @@ namespace BooksiteAPI.Data
 
                 entity.HasIndex(e => e.RsUserId, "IXFK_rs_u");
 
-                entity.Property(e => e.RsId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("rs_id");
+                entity.Property(e => e.RsId).HasColumnName("rs_id");
 
                 entity.Property(e => e.RsCreatedAt).HasColumnName("rs_created_at");
 
