@@ -196,11 +196,10 @@ namespace BooksiteAPI.Controllers
                 UPhone = regData.Phone,
                 URegisterDt = DateTime.Now
             };
-            await _context.SaveChangesAsync();
 
             //send email with verification link
-            var res = await _mail.SendMailAsync(new Models.Mail.MailReqDto
-            {
+            var isEmailSentSuccessfully = await _mail
+                .SendMailAsync(new Models.Mail.MailReqDto {
                 Subject = "Booksite: Confirm your email",
                 Body = $"Greetings, {regData.FirstName}. " +
                 $"To get verified status please click this link: " +
@@ -208,9 +207,7 @@ namespace BooksiteAPI.Controllers
                 ToEmail = regData.Email
             });
 
-            //if verification email was sent, set unverified status
-            //if something went wrong, set verified by default
-            if (res)
+            if (isEmailSentSuccessfully)
             {
                 newUser.M2muutUts.Add(_context.UserTypes
                     .First(ut => ut.UtName == "unverified"));
@@ -219,10 +216,11 @@ namespace BooksiteAPI.Controllers
             }
             else
             {
-                newUser.M2muutUts.Add(_context.UserTypes
-                    .First(ut => ut.UtName == "verified"));
-                _context.Users.Add(newUser);
-                await _context.SaveChangesAsync();
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "can't send verification email"
+                };
             }
 
             AuthResDto authRes = await _jwt.GetAccessAsync(regData);
@@ -234,7 +232,7 @@ namespace BooksiteAPI.Controllers
                     Path = "/api/auth"
                 });
             authRes.RefreshToken = "cookie";
-            authRes.Message = "successfuly registered";
+            authRes.Message = "successfully registered";
             return authRes;
         }
 
@@ -294,7 +292,7 @@ namespace BooksiteAPI.Controllers
             return new AuthResDto
             {
                 IsSuccess = true,
-                Message = $"successfuly verified {email}"
+                Message = $"successfully verified {email}"
             };
         }
 
