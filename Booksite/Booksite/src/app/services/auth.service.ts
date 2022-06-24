@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   fingerprint = this.getFingerprint().then(
-    res => { return res },
+    resFingerprint => { return resFingerprint },
     error => {return null }
   );
 
@@ -76,8 +76,8 @@ export class AuthService {
     const userRole = localStorage.getItem('role');
     if (!userRole)
       return false;
-    const res = params.includes(userRole);
-    return res;
+    const hasOneOfRequestedRoles = params.includes(userRole);
+    return hasOneOfRequestedRoles;
   }
 
   isLoggedIn() {

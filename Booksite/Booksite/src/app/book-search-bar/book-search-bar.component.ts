@@ -30,11 +30,11 @@ export class BookSearchBarComponent implements OnInit {
             }),
           )
         )
-      ).subscribe(res => {
-        if (res == undefined) {
+      ).subscribe(searchResults => {
+        if (searchResults == undefined) {
           this.bookSearchResults = [];
         } else {
-          this.bookSearchResults = res;
+          this.bookSearchResults = searchResults;
         }
       });
   }

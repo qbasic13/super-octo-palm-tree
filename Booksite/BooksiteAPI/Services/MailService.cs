@@ -39,15 +39,16 @@ namespace BooksiteAPI.Services
                 await smtp.SendAsync(message);
                 smtp.Disconnect(true);
 
-                return await Task.FromResult(true);
+                return true;
             }
             catch
             {
-                return await Task.FromResult(false);
+                return false;
             }
         }
 
-        public bool ValidateEmail(string email) {
+        public bool ValidateEmail(string email)
+        {
             email = email.Trim();
             if (email.EndsWith("."))
             {

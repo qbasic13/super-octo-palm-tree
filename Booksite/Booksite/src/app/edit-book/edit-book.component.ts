@@ -38,8 +38,8 @@ export class EditBookComponent {
   ) {
 
     this.bookService.getGenres().subscribe(
-      (res: string[]) => {
-        this.availableGenres = res;
+      (allGenres: string[]) => {
+        this.availableGenres = allGenres;
       },
       (error) => {
         this.availableGenres = ['novel'];
@@ -80,7 +80,7 @@ export class EditBookComponent {
       const editedBook: BookDetails = this.editBookForm.value;
       editedBook.coverFile = this.coverFile;
       this.bookService.editBookDetails(editedBook).subscribe(
-        (res) => {
+        (serverBookDetails) => {
           this.snack.openSnackBar('Successfuly changed book details', 'Ok');
           this.forceReload();
         },

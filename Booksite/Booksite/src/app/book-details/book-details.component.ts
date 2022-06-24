@@ -32,7 +32,6 @@ export class BookDetailsComponent {
 
   fetchBookData(isbn: string) {
     if (BookService.isValidIsbn(isbn)) {
-
       this.bookService.getBookDetails(isbn).subscribe(
         (result) => {
           this.book = result as BookDetails;
