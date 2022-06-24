@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthRes } from '../models/auth.model';
 
-const TOKEN_HEADER_KEY = 'Authorization: Bearer ';
+const TOKEN_HEADER_KEY = 'Authorization';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
@@ -60,7 +60,8 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
   private addTokenHeader(request: HttpRequest<any>, token: string) {
-    return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, token) });
+    return request.clone({
+      headers: request.headers.set(TOKEN_HEADER_KEY,`Bearer ${token}`) });
   }
 }
 export const authInterceptorProviders = [

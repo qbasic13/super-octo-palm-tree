@@ -1,0 +1,70 @@
+<div class="container">
+  <mat-card>
+    <h1 class="form-title">Edit book</h1>
+    <form class="form-container" [formGroup]="editBookForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Enter book title</mat-label>
+        <input matInput placeholder="Crime and punishment" [formControl]="title" required />
+        <mat-error *ngIf="title.invalid">Invalid title</mat-error>
+      </mat-form-field>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter book author</mat-label>
+          <input matInput placeholder="Fyodor Dostoevsky" [formControl]="author" required/>
+          <mat-error *ngIf="author.invalid">Author is required</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter ISBN</mat-label>
+          <input matInput placeholder="ISBN13" [formControl]="isbn" [readonly]=true required/>
+          <mat-error *ngIf="isbn.invalid">Incorrect ISBN</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Choose a genre</mat-label>
+          <mat-select formControlName="genre">
+            <mat-option *ngFor="let genreItem of availableGenres" [value]="genreItem">
+              {{genreItem}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="genre.invalid">Please choose a genre</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter publish year</mat-label>
+          <input matInput placeholder="1950" [formControl]="publishYear" required />
+          <mat-error *ngIf="publishYear.invalid">Incorrect publish year</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="horizontal-division">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter quantity</mat-label>
+          <input matInput type="number" placeholder="5" [formControl]="quantity" />
+          <mat-error *ngIf="quantity.invalid">Incorrect quantity</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Enter book price</mat-label>
+          <input matInput type="number" placeholder="3.99" [formControl]="price" />
+          <mat-error *ngIf="price.invalid">Incorrect book price</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="horizontal-division confirm-container">
+        <button  class="submit"
+                mat-raised-button
+                mat-dialog-close
+                color="primary"
+                [disabled]="!this.editBookForm.valid"
+                (click)="sendForm()">
+          {{ 'Save changes' | uppercase }}
+        </button>
+        <button class="submit"
+                mat-raised-button
+                mat-dialog-close
+                color="primary">
+          {{ 'Revert changes' | uppercase }}
+        </button>
+      </div>
+    </form>
+    <p></p>
+  </mat-card>
+</div>

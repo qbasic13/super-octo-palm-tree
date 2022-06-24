@@ -51,41 +51,6 @@ namespace BooksiteAPI.Controllers
             return new CatalogPageDto { Books = dbBooks, Count = dbCount };
         }
 
-        [HttpGet("{isbn}")]
-        public async Task<ActionResult<BookDetailsDto>> GetBook(string isbn)
-        {
-            if (_context.Books == null)
-            {
-                return NotFound();
-            }
-
-            if (isbn.Length < 13 || isbn.Length > 17)
-            {
-                return BadRequest();
-            }
-
-            var book = await _context.Books.
-                Include(b => b.BGenreNavigation).Select(b =>
-                new BookDetailsDto
-                {
-                    Isbn = b.BIsbn,
-                    Title = b.BTitle,
-                    Author = b.BAuthor,
-                    Quantity = b.BQuantity,
-                    Price = b.BPrice ?? 0,
-                    CoverFile = b.BCoverFile,
-                    Genre = b.BGenreNavigation.GName
-                }
-            ).SingleOrDefaultAsync(b => b.Isbn == isbn);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            return book;
-        }
-
         [HttpGet("search")]
         public async Task<ActionResult<List<BookSearchResDto>>>
             GetBookByTitle(string title)

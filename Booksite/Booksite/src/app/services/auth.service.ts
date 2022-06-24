@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   fingerprint = this.getFingerprint().then(
-    res => { return res },
+    resFingerprint => { return resFingerprint },
     error => {return null }
   );
 
@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   refresh(fingerprint: string): Observable<AuthRes> {
-    return this.http.post<AuthRes>(endpoint + '/refresh', fingerprint, httpOptions);
+    return this.http.post<AuthRes>(endpoint + `/refresh?fingerprint=${fingerprint}`, httpOptions);
   }
 
   verifyEmail(email: string): Observable<AuthRes> {
@@ -70,6 +70,18 @@ export class AuthService {
     const jwtPayload = this.parseJwt(access);
     localStorage.setItem('email', jwtPayload.email);
     localStorage.setItem('role', jwtPayload.role);
+  }
+
+  hasRole(...params: string[]) {
+    const userRole = localStorage.getItem('role');
+    if (!userRole)
+      return false;
+    const hasOneOfRequestedRoles = params.includes(userRole);
+    return hasOneOfRequestedRoles;
+  }
+
+  isLoggedIn() {
+    return localStorage.getItem('email') !== null;
   }
 
   async getFingerprint(): Promise<string> {

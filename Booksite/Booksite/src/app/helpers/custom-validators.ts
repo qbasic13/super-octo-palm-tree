@@ -1,4 +1,6 @@
 import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { BookService } from '../services/book.service';
 export function createPasswordStrengthValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -30,5 +32,27 @@ export function createPhoneValidator(): ValidatorFn {
     }
     const matchesRegex = /^[\+]?[0-9]{1,3}[0-9]{1,3}[0-9]{7}$/.test(phone);
     return matchesRegex ? null : { phone: true };
+  }
+}
+
+export function createIsbnValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    let isbn: string = control.value;
+    return BookService.isValidIsbn(isbn) ? null : { isbn: true };
+  }
+}
+
+export function createYearValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const year: number = control.value;
+    const borderYear = (new Date().getFullYear() + 2);
+    return year >= 0 && year <= borderYear ? null : { year: true };
+  }
+}
+
+export function createNumValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const num: number = control.value;
+    return num >= 0 ? null : { num: true };
   }
 }

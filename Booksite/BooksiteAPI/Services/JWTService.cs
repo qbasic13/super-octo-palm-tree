@@ -25,21 +25,20 @@ namespace BooksiteAPI.Services
                 u => u.UEmail.Equals(req.Email)
                 && u.UPassword.Equals(req.Password));
             if (user is null)
-                return await Task.FromResult<AuthResDto>(
-                    new AuthResDto
-                    {
-                        IsSuccess = false,
-                        Message = "invalid_creds"
-                    });
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "invalid_creds"
+                };
             var userRole = _context.UserTypes
                 .Where(ut => ut.M2muutUs.Contains(user)).SingleOrDefault();
             if (userRole is null)
-                return await Task.FromResult<AuthResDto>(
-                    new AuthResDto
-                    {
-                        IsSuccess = false,
-                        Message = "no_role_for_user"
-                    });
+                return new AuthResDto
+                {
+                    IsSuccess = false,
+                    Message = "no_role_for_user"
+                };
+
             string accessToken = GenerateToken(req, userRole.UtName);
             string refreshToken = GenerateRefreshToken();
             return await SaveTokenDetails(user, req.Fingerprint!,
@@ -73,11 +72,11 @@ namespace BooksiteAPI.Services
                     isValid = _context.RefreshSessions.FirstOrDefault(
                         rs => rs.RsFingerprint == fingerprint) != null;
                 }
-                return await Task.FromResult(isValid);
+                return isValid;
             }
             catch
             {
-                return await Task.FromResult(false);
+                return false;
             }
         }
 
