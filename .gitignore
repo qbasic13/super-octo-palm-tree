@@ -2,4 +2,5 @@
 db_schema/*.ldb
 db_schema/*.eap
 db_schema/covers/*
+!db_schema/covers/unknown.jpg
 .vs/
