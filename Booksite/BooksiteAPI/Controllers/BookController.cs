@@ -58,5 +58,15 @@ namespace BooksiteAPI.Controllers
 
             return BookEditResult;
         }
+
+        [HttpGet("genres")]
+        public async Task<ActionResult<string[]>> GetGenres()
+        {
+            var BookEditResult = await _books.GetGenresAsync();
+            if (BookEditResult == null || BookEditResult.Contains("!not_found"))
+                return NotFound();
+
+            return BookEditResult.ToArray();
+        }
     }
 }

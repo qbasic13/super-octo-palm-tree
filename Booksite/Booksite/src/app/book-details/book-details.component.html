@@ -15,7 +15,7 @@
           Add to cart
         </button>
         <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
-                [routerLink]="['/']">
+                (click)="openEditDialog()">
           <mat-icon>
             note_alt
           </mat-icon>
@@ -27,6 +27,7 @@
       <h1>{{ book.title }}</h1>
       <span>Written by {{ book.author }} </span>
       <span>ISBN: {{ book.isbn }} </span>
+      <span>Publish year: {{ book.publishYear }} </span>
       <span>Genre: {{ book.genre }} </span>
       <span>Quantity: {{ book.quantity }} </span>
       <span *ngIf="book.quantity > 0">Price: {{ book.price }} </span>

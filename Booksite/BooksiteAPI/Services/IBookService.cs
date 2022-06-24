@@ -7,6 +7,7 @@ namespace BooksiteAPI.Services
         Task<BookDetailsDto> GetBookAsync(string isbn);
         Task<BookDetailsDto> EditBookAsync(
             BookDetailsDto editedBook, bool isAdding = false);
+        Task<IEnumerable<string>> GetGenresAsync();
         bool ValidateIsbn(string isbn);
     }
 }

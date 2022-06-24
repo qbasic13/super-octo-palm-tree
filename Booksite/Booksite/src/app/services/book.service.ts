@@ -1,17 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookDetails } from 'src/app/models/books.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
 
-  endpoint = 'api/book'
+  endpoint = 'api/book';
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
   constructor(private http: HttpClient) { }
 
-  isValidIsbn(isbn: string): boolean {
+  static isValidIsbn(isbn: string): boolean {
     isbn = isbn.trim();
     const isDigitsOnly = /^[0-9]{13}$/.test(isbn);
     if (!isDigitsOnly)
@@ -32,5 +35,14 @@ export class BookService {
 
   getBookDetails(isbn: string): Observable<BookDetails> {
     return this.http.get<BookDetails>(this.endpoint + `?isbn=${isbn}`);
+  }
+
+  editBookDetails(bookDetails: BookDetails): Observable<BookDetails> {
+    return this.http.post<BookDetails>(this.endpoint + '/edit',
+      bookDetails, this.httpOptions);
+  }
+
+  getGenres(): Observable<string[]> {
+    return this.http.get<string[]>(this.endpoint + `/genres`);
   }
 }

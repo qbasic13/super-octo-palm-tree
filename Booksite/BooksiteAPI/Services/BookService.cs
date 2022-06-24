@@ -32,7 +32,8 @@ namespace BooksiteAPI.Services
                     Quantity = b.BQuantity,
                     Price = b.BPrice ?? 0,
                     CoverFile = b.BCoverFile,
-                    Genre = b.BGenreNavigation.GName
+                    Genre = b.BGenreNavigation.GName,
+                    PublishYear = b.BPublishYear
                 }
             ).SingleOrDefaultAsync(b => b.Isbn == isbn);
 
@@ -101,6 +102,18 @@ namespace BooksiteAPI.Services
             }
             await _context.SaveChangesAsync();
             return editedBook;
+        }
+
+        public async Task<IEnumerable<string>> GetGenresAsync()
+        {
+            if (_context.Genres == null)
+                return await Task.FromResult(new List<string>() { "!not_found" });
+
+            var genres = await _context.Genres.Select(
+                e => new string(e.GName)).ToListAsync();
+            if(genres == null)
+                return await Task.FromResult(new List<string>() { "!not_found" });
+            return genres;
         }
 
         public bool ValidateIsbn(string isbn)

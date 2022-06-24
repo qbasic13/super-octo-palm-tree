@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   refresh(fingerprint: string): Observable<AuthRes> {
-    return this.http.post<AuthRes>(endpoint + '/refresh', fingerprint, httpOptions);
+    return this.http.post<AuthRes>(endpoint + `/refresh?fingerprint=${fingerprint}`, httpOptions);
   }
 
   verifyEmail(email: string): Observable<AuthRes> {
