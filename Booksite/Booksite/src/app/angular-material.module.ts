@@ -11,7 +11,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatSelectModule } from '@angular/material/select'; 
+import { MatSelectModule } from '@angular/material/select';
+import { MatProgressBarModule } from '@angular/material/progress-bar'; 
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatTooltipModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressBarModule
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +44,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatTooltipModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressBarModule
   ]
 })
 export class AngularMaterialModule { }

@@ -20,6 +20,7 @@ import { SnackNotifyComponent } from './snack-notify/snack-notify.component';
 import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
+import { BookCoverUploadComponent } from './book-cover-upload/book-cover-upload.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { EditBookComponent } from './edit-book/edit-book.component';
     SnackNotifyComponent,
     VerifyEmailComponent,
     BookDetailsComponent,
-    EditBookComponent
+    EditBookComponent,
+    BookCoverUploadComponent
   ],
   imports: [
     BrowserModule,

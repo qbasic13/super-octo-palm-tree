@@ -85,6 +85,9 @@ if (!Directory.Exists(pathToImages))
     throw new Exception("Incorrect path to images directory specified");
 }
 
+builder.Configuration["ConfiguredPathToImages"] = pathToImages;
+builder.Services.AddTransient<IFileService, FileService>();
+
 // Configure mail service
 builder.Services.Configure<MailSettings>(
     builder.Configuration.GetSection("MailSettings"));

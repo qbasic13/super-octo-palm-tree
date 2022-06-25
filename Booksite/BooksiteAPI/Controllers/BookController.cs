@@ -11,6 +11,7 @@ namespace BooksiteAPI.Controllers
     public class BookController : ControllerBase
     {
         private readonly IBookService _books;
+
         public BookController(IBookService books)
         {
             _books = books;
@@ -57,6 +58,15 @@ namespace BooksiteAPI.Controllers
                 return BadRequest();
 
             return BookEditResult;
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("upload")]
+        public async Task<ActionResult<bool>> 
+            UploadCover([FromForm]CoverUploadDto coverUploadForm)
+        {
+            var uploadResult = await _books.CoverUploadAsync(coverUploadForm);
+            return uploadResult ? uploadResult : NotFound();
         }
 
         [HttpGet("genres")]
