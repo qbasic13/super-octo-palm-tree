@@ -1,5 +1,14 @@
-<h1>Booksite Catalog</h1>
 
+<div class="catalog-header">
+  <h1>Booksite Catalog</h1>
+  <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
+          (click)="openAddBookDialog()">
+    <mat-icon>
+      add_box
+    </mat-icon>
+    Add book to catalog
+  </button>
+</div>
 <div>
   <div class="center">
     <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>

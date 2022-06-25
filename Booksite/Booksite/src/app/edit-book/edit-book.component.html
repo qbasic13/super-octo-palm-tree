@@ -1,6 +1,7 @@
 <div class="container">
   <mat-card>
-    <h1 class="form-title">Edit book</h1>
+    <h1 class="form-title" *ngIf="!isAdding">Edit book details</h1>
+    <h1 class="form-title" *ngIf="isAdding">Add new book</h1>
     <form class="form-container" [formGroup]="editBookForm">
       <mat-form-field appearance="outline">
         <mat-label>Enter book title</mat-label>
@@ -10,12 +11,15 @@
       <div class="horizontal-division">
         <mat-form-field appearance="outline">
           <mat-label>Enter book author</mat-label>
-          <input matInput placeholder="Fyodor Dostoevsky" [formControl]="author" required/>
+          <input matInput placeholder="Fyodor Dostoevsky" [formControl]="author" required />
           <mat-error *ngIf="author.invalid">Author is required</mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline">
           <mat-label>Enter ISBN</mat-label>
-          <input matInput placeholder="ISBN13" [formControl]="isbn" [readonly]=true required/>
+          <input matInput placeholder="ISBN13" [formControl]="isbn"
+                 *ngIf="!isAdding" [readonly]=true required />
+          <input matInput placeholder="ISBN13" [formControl]="isbn"
+                 *ngIf="isAdding" required />
           <mat-error *ngIf="isbn.invalid">Incorrect ISBN</mat-error>
         </mat-form-field>
       </div>
@@ -49,19 +53,19 @@
       </div>
 
       <div class="horizontal-division confirm-container">
-        <button  class="submit"
+        <button class="submit"
                 mat-raised-button
                 mat-dialog-close
                 color="primary"
                 [disabled]="!this.editBookForm.valid"
                 (click)="sendForm()">
-          {{ 'Save changes' | uppercase }}
+          {{ 'Save' | uppercase }}
         </button>
         <button class="submit"
                 mat-raised-button
                 mat-dialog-close
                 color="primary">
-          {{ 'Revert changes' | uppercase }}
+          {{ 'Cancel' | uppercase }}
         </button>
       </div>
     </form>

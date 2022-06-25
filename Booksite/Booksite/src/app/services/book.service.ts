@@ -37,9 +37,15 @@ export class BookService {
     return this.http.get<BookDetails>(this.endpoint + `?isbn=${isbn}`);
   }
 
-  editBookDetails(bookDetails: BookDetails): Observable<BookDetails> {
-    return this.http.post<BookDetails>(this.endpoint + '/edit',
-      bookDetails, this.httpOptions);
+  editBookDetails(bookDetails: BookDetails,
+    isAdding: boolean): Observable<BookDetails> {
+    if (isAdding) {
+      return this.http.post<BookDetails>(this.endpoint + '/add',
+        bookDetails, this.httpOptions);
+    } else {
+      return this.http.post<BookDetails>(this.endpoint + '/edit',
+        bookDetails, this.httpOptions);
+    }
   }
 
   getGenres(): Observable<string[]> {

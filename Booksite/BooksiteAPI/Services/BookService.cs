@@ -92,6 +92,7 @@ namespace BooksiteAPI.Services
                     BCoverFile = editedBook.CoverFile,
                     BGenreNavigation = newBookGenre
                 };
+                _context.Books.Add(book);
             }
             else
             {

@@ -15,6 +15,8 @@ import { BookDetails } from '../models/books.model';
   styleUrls: ['./edit-book.component.css']
 })
 export class EditBookComponent {
+  isAdding: boolean = false;
+
   availableGenres: string[] = ['novel'];
   coverFile?: string;
   @ViewChild('editbookForm') editbookForm: any;
@@ -56,16 +58,20 @@ export class EditBookComponent {
       publishYear: this.publishYear
     });
 
-    if (this.data.book) {
-      const details = this.data.book as BookDetails;
-      this.isbn.setValue(details.isbn);
-      this.title.setValue(details.title);
-      this.author.setValue(details.author);
-      this.genre.setValue(details.genre);
-      this.quantity.setValue(details.quantity);
-      this.price.setValue(details.price);
-      this.publishYear.setValue(details.publishYear);
-      this.coverFile = details.coverFile;
+    if (this.data.isAdding) {
+      this.isAdding = true;
+    } else {
+      if (this.data.book) {
+        const details = this.data.book as BookDetails;
+        this.isbn.setValue(details.isbn);
+        this.title.setValue(details.title);
+        this.author.setValue(details.author);
+        this.genre.setValue(details.genre);
+        this.quantity.setValue(details.quantity);
+        this.price.setValue(details.price);
+        this.publishYear.setValue(details.publishYear);
+        this.coverFile = details.coverFile;
+      }
     }
   }
 
@@ -79,17 +85,28 @@ export class EditBookComponent {
     if (this.editBookForm.valid) {
       const editedBook: BookDetails = this.editBookForm.value;
       editedBook.coverFile = this.coverFile;
-      this.bookService.editBookDetails(editedBook).subscribe(
+      this.bookService.editBookDetails(editedBook, this.isAdding).subscribe(
         (serverBookDetails) => {
-          this.snack.openSnackBar('Successfuly changed book details', 'Ok');
-          this.forceReload();
+          const successMsg = this.isAdding ?
+            'Book added successfully' : 'Successfully changed book details';
+
+          this.snack.openSnackBar(successMsg, 'Ok');
+
+          if (this.isAdding) {
+            this.router.navigateByUrl(`/book/${serverBookDetails.isbn}`);
+          } else {
+            this.forceReload();
+          }
         },
         (err) => {
+          const successMsg = this.isAdding ?
+            'Error ocurred while adding book' : 'Unable to change book details';
           this.snack.openSnackBar('Unable to change book details', 'Ok');
           this.forceReload();
         });
     }
   }
+
 
   forceReload() {
     let currentUrl = this.router.url;
