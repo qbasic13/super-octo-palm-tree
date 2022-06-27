@@ -124,9 +124,9 @@ namespace BooksiteAPI.Services
             if (book == null)
                 return false;
 
-            string fileExt = new FileInfo(
+            string fileExtension = new FileInfo(
                 coverUploadForm.file.FileName).Extension;
-            string newFileName = Guid.NewGuid().ToString() + fileExt;
+            string newFileName = Guid.NewGuid().ToString() + fileExtension;
 
             var UploadResult = await _files
                 .UploadImageAsync(coverUploadForm.file!,
