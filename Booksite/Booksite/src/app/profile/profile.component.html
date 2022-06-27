@@ -1,0 +1,14 @@
+<div class="profile-details-container">
+  <div class="spinner-container" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <h1 *ngIf="!isLoading && isError">Unable to load profile data</h1>
+  <div *ngIf="!isLoading && !isError">
+    <h1>User #{{profile.id}}</h1>
+    <p>User email: {{profile.email}}</p>
+    <p>User phone: {{profile.phone}}</p>
+    <p>User name: {{profile.firstName}} {{profile.lastName}} {{profile.middleName}}</p>
+    <p>Account type: {{profile.accountType}}</p>
+    <p>Registered at: {{profile.registerDate | date:'dd/MM/YYYY HH:mm'}}</p>
+  </div>
+</div>
