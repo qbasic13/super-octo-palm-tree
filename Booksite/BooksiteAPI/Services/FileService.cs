@@ -15,13 +15,13 @@ namespace BooksiteAPI.Services
         public async Task<bool> UploadImageAsync
             (IFormFile file, string destPath, string destName)
         {
-            if(file.Length == 0)
+            if (file.Length == 0)
                 return false;
 
             var fullPath = Path.Combine(PathToImgRoot,
                 destPath, destName);
-            
-            using(var stream = new FileStream(fullPath, FileMode.CreateNew))
+
+            using (var stream = new FileStream(fullPath, FileMode.CreateNew))
             {
                 await file.CopyToAsync(stream);
                 return true;
