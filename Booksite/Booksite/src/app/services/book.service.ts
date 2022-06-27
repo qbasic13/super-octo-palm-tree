@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookDetails } from 'src/app/models/books.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { CartDetailsResponse } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +49,12 @@ export class BookService {
     }
   }
 
+  getCartDetails(reqIsbns: string[]): Observable<any> {
+    const isbnsRequest = reqIsbns.join('_');
+    return this.http.get(this.endpoint + `/cart?isbns=${isbnsRequest}`);
+  }
+
   getGenres(): Observable<string[]> {
-    return this.http.get<string[]>(this.endpoint + `/genres`);
+    return this.http.get<string[]>(this.endpoint + '/genres', this.httpOptions);
   }
 }

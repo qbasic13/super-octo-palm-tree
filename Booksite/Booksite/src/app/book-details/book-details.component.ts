@@ -7,6 +7,8 @@ import { BookCoverUploadComponent } from '../book-cover-upload/book-cover-upload
 import { EditBookComponent } from '../edit-book/edit-book.component';
 import { AuthService } from '../services/auth.service';
 import { BookService } from '../services/book.service';
+import { CartService } from '../services/cart.service';
+import { SnackNotifyComponent } from '../snack-notify/snack-notify.component';
 
 @Component({
   selector: 'app-book-details',
@@ -21,7 +23,9 @@ export class BookDetailsComponent {
   constructor(
     private authService: AuthService,
     private bookService: BookService,
+    private cartService: CartService,
     private route: ActivatedRoute,
+    private snack: SnackNotifyComponent,
     public editDialog: MatDialog,
     public uploadDialog: MatDialog ) {
 
@@ -51,6 +55,17 @@ export class BookDetailsComponent {
       this.isError = true;
       this.hide = false;
     }
+  }
+
+  addBookToCart() {
+    let cart = this.cartService.loadCartData();
+    cart = this.cartService.addToCart(cart, this.book.isbn);
+    this.cartService.saveCartData(cart);
+    this.snack.openSnackBar('Book added to cart', 'Ok');
+  }
+
+  isBookInCart() {
+    return this.cartService.isInCart(this.book.isbn);
   }
 
   hasRole(...params: string[]) {

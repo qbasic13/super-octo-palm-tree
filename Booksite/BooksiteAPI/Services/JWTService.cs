@@ -72,7 +72,7 @@ namespace BooksiteAPI.Services
                     isValid = _context.RefreshSessions.FirstOrDefault(
                         rs => rs.RsFingerprint == fingerprint) != null;
                 }
-                return isValid;
+                return await Task.FromResult(isValid);
             }
             catch
             {
