@@ -1,0 +1,75 @@
+<div class="orders-header">
+  <h1>Booksite orders </h1>
+  <h1 *ngIf="!hasRole('admin')">Unauthorized</h1>
+</div>
+<div class="spinner-container" *ngIf="isLoading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+</div>
+<div class="orders-items-container"
+     *ngIf="!isLoading && isSignedIn() && hasRole('admin')">
+  <h1 *ngIf="noOrders">No orders created yet.</h1>
+  <div *ngIf="!noOrders">
+    <table mat-table
+           [dataSource]="dataSource"
+           class="mat-elevation-z8 cart-table">
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell
+            (click)="getOrderDetails(item.id);"
+            *matCellDef="let item">
+          {{item.id}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let item">{{item.userEmail}}</td>
+      </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let item">{{item.userPhone}}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>First name</th>
+        <td mat-cell *matCellDef="let item">{{item.userFirstName}}</td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef>Price</th>
+        <td mat-cell *matCellDef="let item">{{item.totalPrice ?? 0}}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdAt">
+        <th mat-header-cell *matHeaderCellDef>Created</th>
+        <td mat-cell *matCellDef="let item">
+          {{item.createdDate | date:'dd/MM/YYYY HH:mm'}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let item">{{item.status}}</td>
+      </ng-container>
+      <ng-container matColumnDef="completedAt">
+        <th mat-header-cell *matHeaderCellDef>Completed</th>
+        <td mat-cell *matCellDef="let item">
+          {{(item.completionDate | date:'dd/MM/YYYY HH:mm') ?? 'no'}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let item">
+          <button mat-icon-button aria-label="remove"
+                  color="accent"
+                  matTooltip="Start delivering order"
+                  *ngIf="item.status == 'created'"
+                  (click)="startOrderDelivery(item.id)">
+            <mat-icon>
+              local_shipping
+            </mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row
+          *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+  </div>
+</div>

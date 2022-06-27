@@ -1,0 +1,28 @@
+<div>
+  <h1>Order #{{order.id}}</h1>
+  <p>User email: {{order.userEmail}}</p>
+  <p>User phone: {{order.userPhone}}</p>
+  <p>User name: {{order.userFirstName}} {{order.userLastName}} {{order.userMiddleName}}</p>
+  <p>Total price: {{order.totalPrice ? order.totalPrice.toFixed(2) : 0}}</p>
+  <p>Created at: {{order.createdDate | date:'dd/MM/YYYY HH:mm'}}</p>
+  <p>status: {{order.status}}</p>
+  <p *ngIf="order.completionDate">Completed at: {{order.completionDate | date:'dd/MM/YYYY HH:mm'}}</p>
+  <div class="books-container">
+    <mat-card class="book-card" *ngFor="let book of order.books!">
+      <img src="/img/covers/unknown.jpg" *ngIf="!book.coverFile" />
+      <img src="/img/covers/{{book.coverFile}}" *ngIf="book.coverFile" />
+      <mat-card-content>
+        <p></p>
+        <mat-card-title>{{book.title}}</mat-card-title>
+        <p></p>
+        <mat-card-subtitle>
+          <div>ISBN: {{book.isbn}}</div>
+          <div>Author: {{book.author}}</div>
+          <div *ngIf="book.quantity > 0">
+            Price: {{book.price}}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

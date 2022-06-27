@@ -148,7 +148,167 @@ namespace BooksiteAPI.Services
             };
         }
 
-        public async Task<OrderOperationResDto> 
+        public async Task<OrdersResDto>
+            GetOrdersAsync(string email, bool isAdmin = false)
+        {
+            List<Order> orders;
+            if (isAdmin)
+            {
+                orders = await _context.Orders
+                .Include(os => os.OStatusNavigation)
+                .Include(u => u.OCreatorNavigation)
+                .OrderBy(o => o.OCreationDt)
+                .OrderBy(o => o.OStatus).ToListAsync();
+            }
+            else
+            {
+                orders = await _context.Orders
+                .Include(os => os.OStatusNavigation)
+                .Include(u => u.OCreatorNavigation)
+                .Where(o => o.OCreatorNavigation.UEmail == email)
+                .OrderByDescending(o => o.OCreationDt)
+                .OrderBy(o => o.OStatus).ToListAsync();
+            }
+
+            if (orders == null)
+                return new OrdersResDto()
+                {
+                    IsSuccess = false,
+                    Status = "server_error"
+                };
+            if (orders.Count == 0)
+                return new OrdersResDto()
+                {
+                    IsSuccess = true,
+                    Status = "empty",
+                    Message = "No orders found"
+                };
+
+            var requestResult = new OrdersResDto()
+            {
+                IsSuccess = true,
+                Status = "success",
+                Message = "Got orders successfully"
+            };
+            var orderList = new List<OrderDto>();
+
+            foreach (var order in orders)
+            {
+                orderList.Add(new OrderDto()
+                {
+                    Id = order.OId,
+                    UserEmail = order.OCreatorNavigation.UEmail,
+                    UserPhone = order.OCreatorNavigation.UPhone,
+                    UserFirstName = order.OCreatorNavigation.UFirstName,
+                    UserLastName = order.OCreatorNavigation.ULastName,
+                    UserMiddleName = order.OCreatorNavigation.UMiddleName,
+                    CreatedDate = order.OCreationDt,
+                    CompletionDate = order.OCompletionDt,
+                    Status = order.OStatusNavigation.OsName,
+                    TotalPrice = order.OTotalPrice
+                });
+            }
+
+            requestResult.Orders = orderList.ToArray();
+
+            return requestResult;
+        }
+
+        public async Task<OrderOperationResDto> ChangeOrderStatusAsync(
+            int orderId, string newOrderStatus, string email)
+        {
+            var order = await _context.Orders
+                .Include(os => os.OStatusNavigation)
+                .Include(u => u.OCreatorNavigation)
+                .Include(m2muut => m2muut.OCreatorNavigation.M2muutUts)
+                .Where(o => o.OId == orderId).FirstOrDefaultAsync();
+            if (order == null)
+                return new OrderOperationResDto()
+                {
+                    IsSuccess = false,
+                    Status = "not_found",
+                    Message = "Order not found"
+                };
+
+            var orderCreator = order.OCreatorNavigation;
+            var orderEditor = await _context.Users.Include(ut => ut.M2muutUts)
+                .Where(u => u.UEmail == email).SingleOrDefaultAsync();
+            if (orderEditor == null)
+                return new OrderOperationResDto()
+                {
+                    IsSuccess = false,
+                    Status = "unknown_order_editor",
+                    Message = "Unknown order editor"
+                };
+
+            var orderEditorRole = orderEditor.M2muutUts.First();
+            string orderStatus = order.OStatusNavigation.OsName;
+
+            if (orderEditorRole.UtName == "admin" &&
+                orderCreator.UEmail != orderEditor.UEmail)
+                if (orderStatus != "created"
+                    || newOrderStatus != "being_delivered")
+                    return new OrderOperationResDto()
+                    {
+                        IsSuccess = false,
+                        Status = "incorrect_operation",
+                        Message = "Operation not permitted"
+                    };
+
+            if (orderEditorRole.UtName == "verified")
+                if (orderStatus != "being_delivered"
+                    || newOrderStatus != "completed"
+                    || orderCreator.UEmail != orderEditor.UEmail)
+                    return new OrderOperationResDto()
+                    {
+                        IsSuccess = false,
+                        Status = "incorrect_operation",
+                        Message = "Operation not permitted"
+                    };
+
+            var newOS = await _context.OrderStatuses
+                .Where(os => os.OsName == newOrderStatus).FirstOrDefaultAsync();
+
+            if (newOS == null)
+                return new OrderOperationResDto()
+                {
+                    IsSuccess = false,
+                    Status = "status_doesnt_exist",
+                    Message = "Given order status doesn't exist"
+                };
+
+            _context.Update(order);
+            order.OStatusNavigation = newOS;
+            if (newOS.OsName == "completed")
+                order.OCompletionDt = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+
+            var orderDto = new OrderDto()
+            {
+                Id = orderId,
+                UserEmail = orderCreator.UEmail,
+                UserPhone = orderCreator.UPhone,
+                UserFirstName = orderCreator.UFirstName,
+                UserLastName = orderCreator.ULastName,
+                UserMiddleName = orderCreator.UMiddleName,
+                Books = null,
+                Status = newOS.OsName,
+                TotalPrice = order.OTotalPrice,
+                CreatedDate = order.OCreationDt,
+                CompletionDate = order.OCompletionDt
+            };
+
+            return new OrderOperationResDto()
+            {
+                IsSuccess = true,
+                Status = "success",
+                Message = "Changed order status successfully",
+                Order = orderDto
+            };
+        }
+
+        public async Task<OrderOperationResDto>
             GetOrderDetailsAsync(int orderId, string email)
         {
             if (_context == null)
@@ -158,21 +318,35 @@ namespace BooksiteAPI.Services
                     Status = "server_error"
                 };
 
-            var creator = await _context.Users.Where(
+            var creator = await _context.Users.Include(ut => ut.M2muutUts).Where(
                 u => u.UEmail == email).FirstOrDefaultAsync();
-            if(creator == null)
+            if (creator == null)
                 return new OrderOperationResDto()
                 {
                     IsSuccess = false,
                     Status = "unauthorized"
                 };
 
-            var m2mOrdersBooks = await _context.M2mOrdersBooks
+            var userType = creator.M2muutUts.FirstOrDefault();
+
+            M2mOrdersBook[] m2mOrdersBooks;
+            if (userType != null && userType.UtName == "admin")
+            {
+                m2mOrdersBooks = await _context.M2mOrdersBooks
                 .Include(o => o.M2mobO).Include(b => b.M2mobBIsbnNavigation)
                 .Include(os => os.M2mobO.OStatusNavigation)
                 .Include(g => g.M2mobBIsbnNavigation.BGenreNavigation)
-                .Where(m2mob => m2mob.M2mobOId == orderId 
+                .Where(m2mob => m2mob.M2mobOId == orderId).ToArrayAsync();
+            } else
+            {
+                m2mOrdersBooks = await _context.M2mOrdersBooks
+                .Include(o => o.M2mobO).Include(b => b.M2mobBIsbnNavigation)
+                .Include(os => os.M2mobO.OStatusNavigation)
+                .Include(g => g.M2mobBIsbnNavigation.BGenreNavigation)
+                .Where(m2mob => m2mob.M2mobOId == orderId
                 && m2mob.M2mobO.OCreator == creator.UId).ToArrayAsync();
+            }
+
             if (!m2mOrdersBooks.Any())
                 return new OrderOperationResDto()
                 {

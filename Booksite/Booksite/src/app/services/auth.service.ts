@@ -65,6 +65,16 @@ export class AuthService {
     }
   }
 
+  getUserEmail() {
+    const access = localStorage.getItem('access');
+    if (!access)
+      return null;
+    const body = this.parseJwt(access);
+    if (!body)
+      return null;
+    return body.email;
+  }
+
   saveData(access: string) {
     localStorage.setItem('access', access);
     const jwtPayload = this.parseJwt(access);
