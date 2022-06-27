@@ -1,0 +1,28 @@
+<div class="container">
+  <div *ngIf="progressInfo">
+    <span>{{ progressInfo.fileName }}</span>
+    <mat-toolbar class="progress-bar">
+      <mat-progress-bar color="accent"
+                        [value]="progressInfo.value"></mat-progress-bar>
+      <span class="progress">{{ progressInfo.value }}%</span>
+    </mat-toolbar>
+  </div>
+  <mat-form-field>
+    <div>
+      <mat-toolbar>
+        <input matInput [value]="selectedFileName.length ? selectedFileName : 'Select Image'" />
+        <button mat-flat-button
+                color="primary"
+                [disabled]="!selectedFile"
+                (click)="uploadFile()">
+          Upload
+        </button>
+      </mat-toolbar>
+      <input type="file"
+             id="fileInput"
+             name="fileInput"
+             accept="image/*" multiple
+             (change)="selectFile($event)" />
+    </div>
+  </mat-form-field>
+</div>

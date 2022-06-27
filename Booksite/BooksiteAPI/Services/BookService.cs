@@ -8,10 +8,13 @@ namespace BooksiteAPI.Services
     public class BookService : IBookService
     {
         private readonly BooksiteContext _context;
+        private readonly IFileService _files;
 
-        public BookService(BooksiteContext context)
+        public BookService(BooksiteContext context,
+            IFileService files)
         {
             _context = context;
+            _files = files;
         }
 
         public async Task<BookDetailsDto> GetBookAsync(string isbn)
@@ -89,6 +92,7 @@ namespace BooksiteAPI.Services
                     BCoverFile = editedBook.CoverFile,
                     BGenreNavigation = newBookGenre
                 };
+                _context.Books.Add(book);
             }
             else
             {
@@ -105,6 +109,37 @@ namespace BooksiteAPI.Services
             return editedBook;
         }
 
+        public async Task<bool> CoverUploadAsync(CoverUploadDto coverUploadForm)
+        {
+            if (coverUploadForm.file == null ||
+                coverUploadForm.isbn == null ||
+                !ValidateIsbn(coverUploadForm.isbn))
+            {
+                return false;
+            }
+
+            var book = await _context.Books
+                .Where(b => b.BIsbn == coverUploadForm.isbn)
+                .FirstOrDefaultAsync();
+            if (book == null)
+                return false;
+
+            string fileExtension = new FileInfo(
+                coverUploadForm.file.FileName).Extension;
+            string newFileName = Guid.NewGuid().ToString() + fileExtension;
+
+            var UploadResult = await _files
+                .UploadImageAsync(coverUploadForm.file!,
+                "covers", newFileName);
+            if (!UploadResult)
+                return false;
+
+            book.BCoverFile = newFileName;
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<IEnumerable<string>> GetGenresAsync()
         {
             if (_context.Genres == null)
@@ -112,7 +147,7 @@ namespace BooksiteAPI.Services
 
             var genres = await _context.Genres.Select(
                 e => new string(e.GName)).ToListAsync();
-            if(genres == null)
+            if (genres == null)
                 return new List<string>() { "!not_found" };
             return genres;
         }

@@ -3,6 +3,7 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { catchError, map, of } from 'rxjs';
 import { BookDetails } from 'src/app/models/books.model';
+import { BookCoverUploadComponent } from '../book-cover-upload/book-cover-upload.component';
 import { EditBookComponent } from '../edit-book/edit-book.component';
 import { AuthService } from '../services/auth.service';
 import { BookService } from '../services/book.service';
@@ -21,7 +22,8 @@ export class BookDetailsComponent {
     private authService: AuthService,
     private bookService: BookService,
     private route: ActivatedRoute,
-    public editDialog: MatDialog) {
+    public editDialog: MatDialog,
+    public uploadDialog: MatDialog ) {
 
     const isbn = this.route.params.subscribe(params => {
       this.hide = true;
@@ -60,7 +62,16 @@ export class BookDetailsComponent {
       data: {
         book: this.book
       },
-      height: '80vh'
+      maxHeight: '80vh'
+    });
+  }
+
+  openUploadDialog() {
+    this.uploadDialog.open(BookCoverUploadComponent, {
+      data: {
+        book: this.book
+      },
+      maxHeight: '80vh'
     });
   }
 

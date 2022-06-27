@@ -2,6 +2,12 @@ h1 {
   margin: 2rem;
 }
 
+.catalog-header {
+    display:flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
 .books-container {
   display: flex;
   flex-wrap: wrap;
