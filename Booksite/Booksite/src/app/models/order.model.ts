@@ -28,5 +28,12 @@ export interface Order {
   books?: BookDetails[],
   totalPrice: number,
   createdDate: Date,
-  completionDate: Date
+  completionDate?: Date
+}
+
+export interface OrdersResult {
+  isSuccess: boolean;
+  status: string;
+  message?: string;
+  orders?: Order[];
 }

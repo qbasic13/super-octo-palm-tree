@@ -74,7 +74,7 @@ export class CartComponent {
         } else {
           this.cartService.clearCartData();
           this.snack.openSnackBar(orderRes.message ?? orderRes.status, 'Ok');
-          this.router.navigateByUrl('/order/' + orderRes.order!.id);
+          this.router.navigateByUrl('/orders');
         }
         this.isLoading = false;
       },

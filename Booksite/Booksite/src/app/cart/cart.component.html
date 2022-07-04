@@ -33,10 +33,11 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Remove from cart</th>
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let item">
           <button mat-icon-button aria-label="remove"
                   color="accent"
+                  matTooltip="Remove from cart"
                   (click)="removeBookFromCart(item.isbn)">
             <mat-icon>
               remove_shopping_cart
