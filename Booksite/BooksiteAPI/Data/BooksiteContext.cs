@@ -140,7 +140,8 @@ namespace BooksiteAPI.Data
 
                 entity.HasIndex(e => e.OCreator, "IXFK_o_u");
 
-                entity.Property(e => e.OId).HasColumnName("o_id");
+                entity.Property(e => e.OId)
+                .HasColumnName("o_id").UseIdentityColumn();
 
                 entity.Property(e => e.OCompletionDt)
                     .HasColumnType("smalldatetime")

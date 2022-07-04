@@ -14,12 +14,7 @@ using Microsoft.AspNetCore.Authentication.Certificate;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 // Add database connectivity
 builder.Services.AddDbContext<BooksiteContext>(
@@ -95,14 +90,10 @@ builder.Services.Configure<MailSettings>(
 builder.Services.AddTransient<IMailService, MailService>();
 builder.Services.AddTransient<IBookService, BookService>();
 
-var app = builder.Build();
+//add order service 
+builder.Services.AddTransient<IOrderService, OrderService>();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+var app = builder.Build();
 
 app.UseHttpsRedirection();
 

@@ -21,6 +21,7 @@ import { VerifyEmailComponent } from './verify-email/verify-email.component';
 import { BookDetailsComponent } from './book-details/book-details.component';
 import { EditBookComponent } from './edit-book/edit-book.component';
 import { BookCoverUploadComponent } from './book-cover-upload/book-cover-upload.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { BookCoverUploadComponent } from './book-cover-upload/book-cover-upload.
     VerifyEmailComponent,
     BookDetailsComponent,
     EditBookComponent,
-    BookCoverUploadComponent
+    BookCoverUploadComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

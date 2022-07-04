@@ -1,6 +1,8 @@
 <button mat-icon-button aria-label="Shopping cart"
         color="accent" [routerLink]="['/cart']" >
-  <mat-icon>
+  <mat-icon matBadge="{{getCartItems()}}"
+            matBadgeColor="warn"
+            [matBadgeHidden]="getCartItems() === 0">
     shopping_cart
   </mat-icon>
 </button>

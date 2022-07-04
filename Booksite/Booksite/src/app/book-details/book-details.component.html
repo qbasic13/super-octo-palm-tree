@@ -7,13 +7,25 @@
       <img src="/img/covers/unknown.jpg" *ngIf="!book.coverFile" />
       <img src="/img/covers/{{book.coverFile}}" *ngIf="book.coverFile" />
       <div class="buttons-container">
-        <button mat-flat-button color="accent" *ngIf="book.quantity > 0"
-                [routerLink]="['/']">
-          <mat-icon>
-            add_shopping_cart
-          </mat-icon>
-          Add to cart
-        </button>
+        <div *ngIf="book.quantity > 0">
+          <button mat-flat-button color="accent"
+                  *ngIf="!isBookInCart()"
+                  [routerLink]="['/']"
+                  (click)="addBookToCart()">
+            <mat-icon>
+              add_shopping_cart
+            </mat-icon>
+            Add to cart
+          </button>
+          <button mat-flat-button color="accent"
+                  *ngIf="isBookInCart()"
+                  [routerLink]="['/cart']">
+            <mat-icon>
+              check_box
+            </mat-icon>
+            already in cart
+          </button>
+        </div>
         <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
                 (click)="openEditDialog()">
           <mat-icon>

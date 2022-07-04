@@ -12,7 +12,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
-import { MatProgressBarModule } from '@angular/material/progress-bar'; 
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTableModule } from '@angular/material/table'; 
 
 @NgModule({
   imports: [
@@ -29,7 +31,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatBadgeModule,
+    MatTableModule
   ],
   exports: [
     MatButtonModule,
@@ -45,7 +49,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatSnackBarModule,
     MatDialogModule,
     MatSelectModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatBadgeModule,
+    MatTableModule
   ]
 })
 export class AngularMaterialModule { }
