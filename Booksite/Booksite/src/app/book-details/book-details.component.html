@@ -1,0 +1,58 @@
+<div class="book-details-container">
+  <div class="spinner-container" *ngIf="hide">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <div class="book-container" *ngIf="!hide && !isError">
+    <div class="image-container">
+      <img src="/img/covers/unknown.jpg" *ngIf="!book.coverFile" />
+      <img src="/img/covers/{{book.coverFile}}" *ngIf="book.coverFile" />
+      <div class="buttons-container">
+        <div *ngIf="book.quantity > 0">
+          <button mat-flat-button color="accent"
+                  *ngIf="!isBookInCart()"
+                  [routerLink]="['/']"
+                  (click)="addBookToCart()">
+            <mat-icon>
+              add_shopping_cart
+            </mat-icon>
+            Add to cart
+          </button>
+          <button mat-flat-button color="accent"
+                  *ngIf="isBookInCart()"
+                  [routerLink]="['/cart']">
+            <mat-icon>
+              check_box
+            </mat-icon>
+            already in cart
+          </button>
+        </div>
+        <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
+                (click)="openEditDialog()">
+          <mat-icon>
+            note_alt
+          </mat-icon>
+          Edit details
+        </button>
+        <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
+                (click)="openUploadDialog()">
+          <mat-icon>
+            file_upload
+          </mat-icon>
+          Upload cover
+        </button>
+      </div>
+    </div>
+    <div class="details-container">
+      <h1>{{ book.title }}</h1>
+      <span>Written by {{ book.author }} </span>
+      <span>ISBN: {{ book.isbn }} </span>
+      <span>Publish year: {{ book.publishYear }} </span>
+      <span>Genre: {{ book.genre }} </span>
+      <span>Quantity: {{ book.quantity }} </span>
+      <span *ngIf="book.quantity > 0">Price: {{ book.price }} </span>
+    </div>
+  </div>
+  <mat-card class="info-card fail" *ngIf="!hide && isError">
+    <span>Error: {{errorText}}</span>
+  </mat-card>
+</div>

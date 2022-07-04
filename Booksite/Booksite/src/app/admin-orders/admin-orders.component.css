@@ -1,0 +1,47 @@
+h1 {
+  margin: 2rem;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orders-header {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 1rem;
+}
+
+.orders-items-container {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: stretch;
+  padding: 1rem;
+}
+
+table {
+  width: 100%;
+}
+
+.orders-header-buttons {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  padding: 1rem;
+}
+
+.mat-cell, .mat-header-cell {
+  text-align: center;
+}
+
+.mat-column-id:hover {
+  cursor: pointer;
+}
+
+.mat-column-actions {
+  max-width: 1.5rem;
+  text-align: end;
+}

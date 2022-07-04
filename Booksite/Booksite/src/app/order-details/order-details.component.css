@@ -1,0 +1,20 @@
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  height: max-content;
+  justify-content: space-evenly;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  max-width: 15rem;
+  transition: 100ms linear;
+}
+
+  .book-card > img {
+    border-radius: inherit;
+    max-height: 20rem;
+  }

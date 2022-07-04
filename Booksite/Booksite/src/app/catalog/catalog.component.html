@@ -1,0 +1,42 @@
+
+<div class="catalog-header">
+  <h1>Booksite Catalog</h1>
+  <button mat-flat-button color="accent" *ngIf="hasRole('admin')"
+          (click)="openAddBookDialog()">
+    <mat-icon>
+      add_box
+    </mat-icon>
+    Add book to catalog
+  </button>
+</div>
+<div>
+  <div class="center">
+    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+  </div>
+  <div class="spinner-container" *ngIf="loading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <div class="books-container">
+    <mat-card class="book-card" *ngFor="let book of books
+              | paginate:{ id: 'server', itemsPerPage: pageItems,
+                currentPage: currPage, totalItems: count }"
+              [routerLink]="['/book/',book.isbn]">
+      <img src="/img/covers/unknown.jpg" *ngIf="!book.coverFile" />
+      <img src="/img/covers/{{book.coverFile}}" *ngIf="book.coverFile" />
+      <mat-card-content>
+        <p></p>
+        <mat-card-title>{{book.title}}</mat-card-title>
+        <p></p>
+        <mat-card-subtitle>
+          <div>ISBN: {{book.isbn}}</div>
+          <div>Author: {{book.author}}</div>
+          <div *ngIf="book.quantity > 0">
+            Price: {{book.price}}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+

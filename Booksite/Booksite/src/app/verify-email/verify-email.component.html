@@ -1,0 +1,11 @@
+<div class="container">
+  <div class="spinner-container" *ngIf="hide">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+  </div>
+  <mat-card class="info-card success" *ngIf="!hide && authRes.isSuccess">
+    <span>Success: {{authRes.message}}. Please sign out and sign back in.</span>
+  </mat-card>
+  <mat-card class="info-card fail" *ngIf="!hide && !authRes.isSuccess">
+    <span>Error: {{authRes.message}}</span>
+  </mat-card>
+</div>

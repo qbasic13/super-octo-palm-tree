@@ -1,0 +1,55 @@
+h1 {
+  margin: 2rem;
+}
+
+.catalog-header {
+    display:flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  height: max-content;
+  justify-content: space-evenly;
+}
+
+.spinner-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.book-card {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+  max-width: 15rem;
+  transition: 100ms linear;
+}
+
+.book-card:hover {
+    cursor: pointer;
+    transform: scale(1.05); 
+}
+
+.book-card > img {
+  border-radius: inherit;
+  max-height: 20rem;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+pagination-controls /deep/ ul.ngx-pagination {
+  padding-inline-start: 0 !important;
+}
+
+pagination-controls /deep/ li.current {
+  background: #673ab7;
+}
